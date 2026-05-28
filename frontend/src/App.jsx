@@ -418,7 +418,7 @@ const App = () => {
                   <DoorOpen size={20}/> <span>Кабинеты</span>
                 </button>
                 <button onClick={() => setView('subjects')} style={view === 'subjects' ? st.sideBtnActive : st.sideBtn}>
-                  <BookOpen size={20}/> <span>Предметы</span>
+                  <BookOpen size={20}/> <span>Дисциплины</span>
                 </button>
                 <button onClick={() => setView('admin')} style={view === 'admin' ? st.sideBtnActive : st.sideBtn}>
                   <Settings size={20}/> <span>Управление БД</span>
@@ -592,7 +592,7 @@ const App = () => {
                 )}
                 <form onSubmit={saveLesson} style={st.stack}>
                   <select style={st.formSelect} required value={lessonForm.subject_id} onChange={e => setLessonForm({...lessonForm, subject_id: e.target.value})}>
-                    <option value="">Выберите предмет...</option>
+                    <option value="">Выберите дисциплину...</option>
                     {meta.subjects?.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                   </select>
 
@@ -1067,7 +1067,7 @@ const SubjectList = ({ subjects, refresh, apiUrl, onDelete, onUpdate }) => {
   const cancelEdit = () => setEditId(null);
 
   const saveEdit = async (id) => {
-    if (!editName) return alert('Введите название');
+    if (!editName) return alert('Введите название дисциплины');
     try {
       await onUpdate('subjects', id, { name: editName });
       setEditId(null);
@@ -1076,11 +1076,11 @@ const SubjectList = ({ subjects, refresh, apiUrl, onDelete, onUpdate }) => {
   };
 
   return (
-    <ListWrapper title="Предметы" onRefresh={refresh}>
+    <ListWrapper title="Дисциплины" onRefresh={refresh}>
       <div style={{ background:'#fff', borderRadius:'20px', padding:'25px', marginBottom:'30px' }}>
-        <h3>Добавить предмет</h3>
+        <h3>Добавить дисциплину</h3>
         <form onSubmit={add} style={{ display:'flex', gap:'15px', alignItems:'flex-end' }}>
-          <input placeholder="Название предмета" value={name} onChange={e=>setName(e.target.value)} style={st.inp} required />
+          <input placeholder="Название дисциплины" value={name} onChange={e=>setName(e.target.value)} style={st.inp} required />
           <button type="submit" style={st.addBtn}><Plus size={18}/> Добавить</button>
         </form>
       </div>
@@ -1089,7 +1089,7 @@ const SubjectList = ({ subjects, refresh, apiUrl, onDelete, onUpdate }) => {
           <div key={s.id} style={{...st.card, background: '#f0fdf4', borderColor: '#bbf7d0'}}>
             {editId === s.id ? (
               <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
-                <input value={editName} onChange={e=>setEditName(e.target.value)} style={st.inp} placeholder="Название" />
+                <input value={editName} onChange={e=>setEditName(e.target.value)} style={st.inp} placeholder="Название дисциплины" />
                 <div style={{ display:'flex', gap:'10px' }}>
                   <button onClick={() => saveEdit(s.id)} style={st.addBtn}>Сохранить</button>
                   <button onClick={cancelEdit} style={{...st.addBtn, background:'#94a3b8'}}>Отмена</button>

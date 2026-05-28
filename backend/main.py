@@ -410,9 +410,9 @@ def add_subject():
     data = request.get_json()
     name = data.get('name')
     if not name:
-        return jsonify({'error': 'Название обязательно'}), 400
+        return jsonify({'error': 'Название дисциплины обязательно'}), 400
     if Subject.query.filter_by(name=name).first():
-        return jsonify({'error': 'Предмет уже существует'}), 400
+        return jsonify({'error': 'Дисциплина уже существует'}), 400
     subj = Subject(name=name)
     db.session.add(subj)
     db.session.commit()
@@ -424,10 +424,10 @@ def update_subject(id):
     data = request.get_json()
     new_name = data.get('name')
     if not new_name:
-        return jsonify({'error': 'Название обязательно'}), 400
+        return jsonify({'error': 'Название дисциплины обязательно'}), 400
     existing = Subject.query.filter(Subject.name == new_name, Subject.id != id).first()
     if existing:
-        return jsonify({'error': 'Предмет с таким названием уже существует'}), 400
+        return jsonify({'error': 'Дисциплина с таким названием уже существует'}), 400
     subj.name = new_name
     db.session.commit()
     return jsonify({'id': subj.id, 'name': subj.name}), 200
@@ -437,7 +437,7 @@ def delete_subject(id):
     subj = Subject.query.get_or_404(id)
     db.session.delete(subj)
     db.session.commit()
-    return jsonify({'message': 'Предмет удалён'})
+    return jsonify({'message': 'Дисциплина удалена'})
 
 # ========== ФРОНТЕНД ==========
 @app.route('/', defaults={'path': ''})
