@@ -101,6 +101,7 @@ def check_conflicts(group_id, teacher_id, room_id, day, pair, lesson_date, exclu
     if isinstance(dt, str):
         dt = date.fromisoformat(dt)
 
+    # Проверка аудитории
     conflict_room = Schedule.query.filter(
         Schedule.room_id == room_id,
         Schedule.day == day,
@@ -113,6 +114,7 @@ def check_conflicts(group_id, teacher_id, room_id, day, pair, lesson_date, exclu
         r = Room.query.get(room_id)
         conflicts.append(f"Аудитория {r.number} уже занята {dt}")
 
+    # Проверка преподавателя
     conflict_teacher = Schedule.query.filter(
         Schedule.teacher_id == teacher_id,
         Schedule.day == day,
@@ -125,6 +127,7 @@ def check_conflicts(group_id, teacher_id, room_id, day, pair, lesson_date, exclu
         t = Teacher.query.get(teacher_id)
         conflicts.append(f"Преподаватель {t.full_name} уже занят {dt}")
 
+    # Проверка группы
     conflict_group = Schedule.query.filter(
         Schedule.group_id == group_id,
         Schedule.day == day,
@@ -156,12 +159,10 @@ def login():
 def get_meta():
     teachers = Teacher.query.all()
     teacher_list = [{
-        'id': t.id,
-        'full_name': t.full_name,
+        'id': t.id, 'full_name': t.full_name,
         'department_id': t.department_id,
         'department_name': t.department.name if t.department else '',
-        'position': t.position,
-        'email': t.email
+        'position': t.position, 'email': t.email
     } for t in teachers]
 
     departments = Department.query.all()
@@ -207,14 +208,9 @@ def add_schedule():
         return jsonify({'conflicts': conflicts}), 409
 
     new_lesson = Schedule(
-        subject_id=subject_id,
-        group_id=group_id,
-        teacher_id=teacher_id,
-        room_id=room_id,
-        day=day,
-        pair=pair,
-        lesson_date=lesson_date,
-        lesson_type=lesson_type
+        subject_id=subject_id, group_id=group_id, teacher_id=teacher_id,
+        room_id=room_id, day=day, pair=pair,
+        lesson_date=lesson_date, lesson_type=lesson_type
     )
     db.session.add(new_lesson)
     db.session.commit()
@@ -291,7 +287,7 @@ def delete_department(id):
     db.session.commit()
     return jsonify({'message': 'Кафедра удалена'})
 
-# ---------- Группы ----------
+# Группы
 @app.route('/api/groups', methods=['POST'])
 def add_group():
     data = request.get_json()
@@ -328,7 +324,7 @@ def delete_group(id):
     db.session.commit()
     return jsonify({'message': 'Группа удалена'})
 
-# ---------- Преподаватели ----------
+# Преподаватели
 @app.route('/api/teachers', methods=['POST'])
 def add_teacher():
     data = request.get_json()
@@ -374,7 +370,7 @@ def delete_teacher(id):
     db.session.commit()
     return jsonify({'message': 'Преподаватель удалён'})
 
-# ---------- Аудитории ----------
+# Аудитории
 @app.route('/api/rooms', methods=['POST'])
 def add_room():
     data = request.get_json()
@@ -408,7 +404,7 @@ def delete_room(id):
     db.session.commit()
     return jsonify({'message': 'Аудитория удалена'})
 
-# ---------- Дисциплины ----------
+# Дисциплины
 @app.route('/api/subjects', methods=['POST'])
 def add_subject():
     data = request.get_json()
