@@ -25,11 +25,6 @@ class Department(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=True, nullable=False)
 
-class Subject(db.Model):
-    __tablename__ = 'subjects'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), unique=True, nullable=False)
-
 class Teacher(db.Model):
     __tablename__ = 'teachers'
     id = db.Column(db.Integer, primary_key=True)
@@ -50,6 +45,11 @@ class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.String(20), unique=True, nullable=False)
     capacity = db.Column(db.Integer, default=0)
+
+class Subject(db.Model):
+    __tablename__ = 'subjects'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=True, nullable=False)
 
 class Schedule(db.Model):
     __tablename__ = 'schedule'
@@ -207,9 +207,14 @@ def add_schedule():
         return jsonify({'conflicts': conflicts}), 409
 
     new_lesson = Schedule(
-        subject_id=subject_id, group_id=group_id, teacher_id=teacher_id,
-        room_id=room_id, day=day, pair=pair,
-        lesson_date=lesson_date, lesson_type=lesson_type
+        subject_id=subject_id,
+        group_id=group_id,
+        teacher_id=teacher_id,
+        room_id=room_id,
+        day=day,
+        pair=pair,
+        lesson_date=lesson_date,
+        lesson_type=lesson_type
     )
     db.session.add(new_lesson)
     db.session.commit()
@@ -252,7 +257,6 @@ def delete_schedule(id):
     return jsonify({'message': 'Занятие удалено'})
 
 # ========== СПРАВОЧНИКИ ==========
-# Департаменты
 @app.route('/api/departments', methods=['POST'])
 def add_department():
     data = request.get_json()
@@ -287,7 +291,7 @@ def delete_department(id):
     db.session.commit()
     return jsonify({'message': 'Кафедра удалена'})
 
-# Группы
+# ---------- Группы ----------
 @app.route('/api/groups', methods=['POST'])
 def add_group():
     data = request.get_json()
@@ -324,7 +328,7 @@ def delete_group(id):
     db.session.commit()
     return jsonify({'message': 'Группа удалена'})
 
-# Преподаватели
+# ---------- Преподаватели ----------
 @app.route('/api/teachers', methods=['POST'])
 def add_teacher():
     data = request.get_json()
@@ -370,7 +374,7 @@ def delete_teacher(id):
     db.session.commit()
     return jsonify({'message': 'Преподаватель удалён'})
 
-# Аудитории
+# ---------- Аудитории ----------
 @app.route('/api/rooms', methods=['POST'])
 def add_room():
     data = request.get_json()
@@ -404,7 +408,7 @@ def delete_room(id):
     db.session.commit()
     return jsonify({'message': 'Аудитория удалена'})
 
-# Предметы
+# ---------- Дисциплины ----------
 @app.route('/api/subjects', methods=['POST'])
 def add_subject():
     data = request.get_json()

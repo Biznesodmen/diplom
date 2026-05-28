@@ -61,8 +61,7 @@ const App = () => {
   const [newMeta, setNewMeta] = useState({
     groups: '', teachers: '', teacherDepartment: '', teacherPosition: '', teacherEmail: '',
     rooms: '', roomCapacity: '',
-    departments: '',
-    subjects: ''
+    departments: ''
   });
   const [editingLesson, setEditingLesson] = useState(null);
   const [conflictDetails, setConflictDetails] = useState('');
@@ -179,10 +178,6 @@ const App = () => {
     setConflictDetails('');
     if (!lessonForm.days.length || !lessonForm.pairs.length || !lessonForm.dateRanges.length) {
       alert("Выберите дни, пары и хотя бы один диапазон дат!");
-      return;
-    }
-    if (!lessonForm.subject_id) {
-      alert("Выберите предмет!");
       return;
     }
 
@@ -725,7 +720,7 @@ const App = () => {
   );
 };
 
-// Компоненты списков
+// ========== КОМПОНЕНТЫ СПРАВОЧНИКОВ ==========
 const ListWrapper = ({ title, children, onRefresh }) => (
   <div style={{ maxWidth: '1200px' }}>
     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px' }}>
@@ -1115,9 +1110,9 @@ const SubjectList = ({ subjects, refresh, apiUrl, onDelete, onUpdate }) => {
 const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
   return (
     <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'25px'}}>
-      {['departments', 'teachers', 'groups', 'rooms', 'subjects'].map(type => (
+      {['departments', 'teachers', 'groups', 'rooms'].map(type => (
         <div key={type} style={st.adminCard}>
-          <h4>{type === 'departments' ? 'Кафедра' : type === 'teachers' ? 'Преподаватель' : type === 'groups' ? 'Группа' : type === 'rooms' ? 'Аудитория' : 'Предмет'}</h4>
+          <h4>{type === 'departments' ? 'Кафедра' : type === 'teachers' ? 'Преподаватель' : type === 'groups' ? 'Группа' : 'Аудитория'}</h4>
           {type === 'teachers' && (
             <>
               <input placeholder="ФИО" value={newMeta.teachers} onChange={e=>setNewMeta({...newMeta, teachers:e.target.value})} style={st.adminInp} />
@@ -1139,10 +1134,17 @@ const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
               <div style={{color:'#64748b', fontSize:12, marginTop:10}}>Полный список — в отдельной вкладке</div>
             </>
           )}
-          {(type !== 'teachers' && type !== 'rooms') && (
+          {type === 'groups' && (
             <>
-              <input placeholder={type === 'departments' ? 'Название кафедры' : type === 'groups' ? 'Название группы' : 'Название предмета'} value={newMeta[type] || ''} onChange={e=>setNewMeta({...newMeta, [type]: e.target.value})} style={st.adminInp} />
-              <button onClick={()=>addMeta(type)} style={st.adminAddBtn}><Plus size={18}/></button>
+              <input placeholder="Название группы" value={newMeta.groups} onChange={e=>setNewMeta({...newMeta, groups:e.target.value})} style={st.adminInp} />
+              <button onClick={()=>addMeta('groups')} style={st.adminAddBtn}><Plus size={18}/></button>
+              <div style={{color:'#64748b', fontSize:12, marginTop:10}}>Полный список — в отдельной вкладке</div>
+            </>
+          )}
+          {type === 'departments' && (
+            <>
+              <input placeholder="Название кафедры" value={newMeta.departments} onChange={e=>setNewMeta({...newMeta, departments:e.target.value})} style={st.adminInp} />
+              <button onClick={()=>addMeta('departments')} style={st.adminAddBtn}><Plus size={18}/></button>
               <div style={{color:'#64748b', fontSize:12, marginTop:10}}>Полный список — в отдельной вкладке</div>
             </>
           )}
@@ -1152,7 +1154,7 @@ const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
   );
 };
 
-// Стили
+// ========== СТИЛИ ==========
 const st = {
   app: { position:'fixed', top:0, left:0, right:0, bottom:0, display:'flex', background:'#f1f5f9', color:'#1e293b', fontFamily:'sans-serif', overflow:'hidden' },
   sidebar: { width:'280px', background:'#fff', borderRight:'1px solid #e2e8f0', display:'flex', flexDirection:'column', height:'100%', overflowY:'auto', flexShrink:0 },
