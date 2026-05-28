@@ -4,12 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import date
 import os
 
-# Определяем корневую папку (где лежит этот скрипт)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__, static_folder=os.path.join(basedir, 'frontend', 'dist'), static_url_path='/')
-
-# База данных будет всегда создаваться в той же папке, что и main.py
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'schedule.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
@@ -25,6 +22,11 @@ class User(db.Model):
 
 class Department(db.Model):
     __tablename__ = 'departments'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=True, nullable=False)
+
+class Subject(db.Model):
+    __tablename__ = 'subjects'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=True, nullable=False)
 
@@ -52,7 +54,7 @@ class Room(db.Model):
 class Schedule(db.Model):
     __tablename__ = 'schedule'
     id = db.Column(db.Integer, primary_key=True)
-    subject = db.Column(db.String(200), nullable=False)
+    subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'), nullable=False)
@@ -61,31 +63,26 @@ class Schedule(db.Model):
     lesson_date = db.Column(db.Date, nullable=False)
     lesson_type = db.Column(db.String(20), default='lecture')
 
+    subject = db.relationship('Subject', backref='lessons')
     group = db.relationship('Group', backref='lessons')
     teacher = db.relationship('Teacher', backref='lessons')
     room = db.relationship('Room', backref='lessons')
 
-# При запуске создаём таблицы и начальных пользователей
 with app.app_context():
     db.create_all()
-    # Выводим полный путь к базе, чтобы точно знать, где она
-    db_path = os.path.join(basedir, 'schedule.db')
-    print("=" * 50)
-    print("База данных создана (или уже существует):")
-    print(db_path)
-    print("=" * 50)
-
     if not User.query.filter_by(login='admin').first():
         db.session.add(User(login='admin', password='1234'))
     if not User.query.filter_by(login='student').first():
         db.session.add(User(login='student', password='1234'))
     db.session.commit()
+    print("База данных создана:", os.path.join(basedir, 'schedule.db'))
 
 # ========== ВСПОМОГАТЕЛЬНЫЕ ==========
 def schedule_to_dict(s):
     return {
         'id': s.id,
-        'subject': s.subject,
+        'subject': s.subject.name,
+        'subject_id': s.subject_id,
         'group': s.group.group_name,
         'group_id': s.group_id,
         'teacher': s.teacher.full_name,
@@ -176,11 +173,15 @@ def get_meta():
     rooms = Room.query.all()
     room_list = [{'id': r.id, 'name': r.number, 'capacity': r.capacity} for r in rooms]
 
+    subjects = Subject.query.all()
+    subject_list = [{'id': s.id, 'name': s.name} for s in subjects]
+
     return jsonify({
         'groups': group_list,
         'teachers': teacher_list,
         'rooms': room_list,
-        'departments': department_list
+        'departments': department_list,
+        'subjects': subject_list
     })
 
 # ========== РАСПИСАНИЕ ==========
@@ -194,19 +195,19 @@ def add_schedule():
     group_id = int(data['group_id'])
     teacher_id = int(data['teacher_id'])
     room_id = int(data['room_id'])
+    subject_id = int(data['subject_id'])
     day = int(data['day'])
     pair = int(data['pair'])
     lesson_date_str = data['date']
     lesson_date = date.fromisoformat(lesson_date_str)
     lesson_type = data.get('lesson_type', 'lecture')
-    subject = data['subject']
 
     conflicts = check_conflicts(group_id, teacher_id, room_id, day, pair, lesson_date)
     if conflicts:
         return jsonify({'conflicts': conflicts}), 409
 
     new_lesson = Schedule(
-        subject=subject, group_id=group_id, teacher_id=teacher_id,
+        subject_id=subject_id, group_id=group_id, teacher_id=teacher_id,
         room_id=room_id, day=day, pair=pair,
         lesson_date=lesson_date, lesson_type=lesson_type
     )
@@ -221,6 +222,7 @@ def update_schedule(id):
     group_id = int(data.get('group_id', lesson.group_id))
     teacher_id = int(data.get('teacher_id', lesson.teacher_id))
     room_id = int(data.get('room_id', lesson.room_id))
+    subject_id = int(data.get('subject_id', lesson.subject_id))
     day = int(data.get('day', lesson.day))
     pair = int(data.get('pair', lesson.pair))
     lesson_date_str = data.get('date', lesson.lesson_date.isoformat())
@@ -231,7 +233,7 @@ def update_schedule(id):
     if conflicts:
         return jsonify({'conflicts': conflicts}), 409
 
-    lesson.subject = data.get('subject', lesson.subject)
+    lesson.subject_id = subject_id
     lesson.group_id = group_id
     lesson.teacher_id = teacher_id
     lesson.room_id = room_id
@@ -250,6 +252,7 @@ def delete_schedule(id):
     return jsonify({'message': 'Занятие удалено'})
 
 # ========== СПРАВОЧНИКИ ==========
+# Департаменты
 @app.route('/api/departments', methods=['POST'])
 def add_department():
     data = request.get_json()
@@ -284,6 +287,7 @@ def delete_department(id):
     db.session.commit()
     return jsonify({'message': 'Кафедра удалена'})
 
+# Группы
 @app.route('/api/groups', methods=['POST'])
 def add_group():
     data = request.get_json()
@@ -320,6 +324,7 @@ def delete_group(id):
     db.session.commit()
     return jsonify({'message': 'Группа удалена'})
 
+# Преподаватели
 @app.route('/api/teachers', methods=['POST'])
 def add_teacher():
     data = request.get_json()
@@ -365,6 +370,7 @@ def delete_teacher(id):
     db.session.commit()
     return jsonify({'message': 'Преподаватель удалён'})
 
+# Аудитории
 @app.route('/api/rooms', methods=['POST'])
 def add_room():
     data = request.get_json()
@@ -398,6 +404,41 @@ def delete_room(id):
     db.session.commit()
     return jsonify({'message': 'Аудитория удалена'})
 
+# Предметы
+@app.route('/api/subjects', methods=['POST'])
+def add_subject():
+    data = request.get_json()
+    name = data.get('name')
+    if not name:
+        return jsonify({'error': 'Название обязательно'}), 400
+    if Subject.query.filter_by(name=name).first():
+        return jsonify({'error': 'Предмет уже существует'}), 400
+    subj = Subject(name=name)
+    db.session.add(subj)
+    db.session.commit()
+    return jsonify({'id': subj.id, 'name': subj.name}), 201
+
+@app.route('/api/subjects/<int:id>', methods=['PUT'])
+def update_subject(id):
+    subj = Subject.query.get_or_404(id)
+    data = request.get_json()
+    new_name = data.get('name')
+    if not new_name:
+        return jsonify({'error': 'Название обязательно'}), 400
+    existing = Subject.query.filter(Subject.name == new_name, Subject.id != id).first()
+    if existing:
+        return jsonify({'error': 'Предмет с таким названием уже существует'}), 400
+    subj.name = new_name
+    db.session.commit()
+    return jsonify({'id': subj.id, 'name': subj.name}), 200
+
+@app.route('/api/subjects/<int:id>', methods=['DELETE'])
+def delete_subject(id):
+    subj = Subject.query.get_or_404(id)
+    db.session.delete(subj)
+    db.session.commit()
+    return jsonify({'message': 'Предмет удалён'})
+
 # ========== ФРОНТЕНД ==========
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -407,4 +448,4 @@ def serve_react(path):
     return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run(debug=True, port=5000)

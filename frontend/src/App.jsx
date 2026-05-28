@@ -6,7 +6,7 @@ import {
   Calendar, Edit, Trash2, RefreshCw, Building, DoorOpen
 } from 'lucide-react';
 
-const API_URL = '/api';
+const API_URL = 'http://127.0.0.1:5000/api';
 
 const WEEK_DAYS = [
   { id: 1, name: "Понедельник" }, { id: 2, name: "Вторник" }, { id: 3, name: "Среда" },
@@ -47,7 +47,7 @@ const App = () => {
   const [authError, setAuthError] = useState('');
   const [view, setView] = useState('view');
   const [schedule, setSchedule] = useState([]);
-  const [meta, setMeta] = useState({ groups: [], teachers: [], rooms: [], departments: [] });
+  const [meta, setMeta] = useState({ groups: [], teachers: [], rooms: [], departments: [], subjects: [] });
   const [searchType, setSearchType] = useState('group');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -55,13 +55,14 @@ const App = () => {
   const [selectedWeekMonday, setSelectedWeekMonday] = useState('');
 
   const [lessonForm, setLessonForm] = useState({
-    subject: '', group_id: '', teacher_id: '', room_id: '',
+    subject_id: '', group_id: '', teacher_id: '', room_id: '',
     days: [], pairs: [], dateRanges: [], lesson_type: 'lecture'
   });
   const [newMeta, setNewMeta] = useState({
     groups: '', teachers: '', teacherDepartment: '', teacherPosition: '', teacherEmail: '',
     rooms: '', roomCapacity: '',
-    departments: ''
+    departments: '',
+    subjects: ''
   });
   const [editingLesson, setEditingLesson] = useState(null);
   const [conflictDetails, setConflictDetails] = useState('');
@@ -77,7 +78,8 @@ const App = () => {
         groups: resMeta.data?.groups || [],
         teachers: resMeta.data?.teachers || [],
         rooms: resMeta.data?.rooms || [],
-        departments: resMeta.data?.departments || []
+        departments: resMeta.data?.departments || [],
+        subjects: resMeta.data?.subjects || []
       });
     } catch (e) {
       console.error("Ошибка обновления:", e);
@@ -179,6 +181,10 @@ const App = () => {
       alert("Выберите дни, пары и хотя бы один диапазон дат!");
       return;
     }
+    if (!lessonForm.subject_id) {
+      alert("Выберите предмет!");
+      return;
+    }
 
     const dates = generateDatesFromRanges(lessonForm.dateRanges, lessonForm.days);
     if (!dates.length) {
@@ -193,7 +199,7 @@ const App = () => {
           const jsDay = dt.getDay();
           const dayId = jsDay === 0 ? 7 : jsDay;
           await axios.post(`${API_URL}/schedule`, {
-            subject: lessonForm.subject,
+            subject_id: Number(lessonForm.subject_id),
             group_id: Number(lessonForm.group_id),
             teacher_id: Number(lessonForm.teacher_id),
             room_id: Number(lessonForm.room_id),
@@ -207,7 +213,7 @@ const App = () => {
       setView('view');
       setEditingLesson(null);
       setLessonForm({
-        subject: '', group_id: '', teacher_id: '', room_id: '',
+        subject_id: '', group_id: '', teacher_id: '', room_id: '',
         days: [], pairs: [], dateRanges: [], lesson_type: 'lecture'
       });
       refreshData();
@@ -233,7 +239,7 @@ const App = () => {
 
   const startEditLesson = (lesson) => {
     setLessonForm({
-      subject: lesson.subject,
+      subject_id: String(lesson.subject_id),
       group_id: String(lesson.group_id),
       teacher_id: String(lesson.teacher_id),
       room_id: String(lesson.room_id),
@@ -411,6 +417,9 @@ const App = () => {
                 <button onClick={() => setView('rooms')} style={view === 'rooms' ? st.sideBtnActive : st.sideBtn}>
                   <DoorOpen size={20}/> <span>Кабинеты</span>
                 </button>
+                <button onClick={() => setView('subjects')} style={view === 'subjects' ? st.sideBtnActive : st.sideBtn}>
+                  <BookOpen size={20}/> <span>Предметы</span>
+                </button>
                 <button onClick={() => setView('admin')} style={view === 'admin' ? st.sideBtnActive : st.sideBtn}>
                   <Settings size={20}/> <span>Управление БД</span>
                 </button>
@@ -473,7 +482,6 @@ const App = () => {
                 </div>
               </div>
 
-              {/* ПОИСК ДЛЯ ВСЕХ (СТУДЕНТ И АДМИН) */}
               {isWeekSelected && (
                 <div style={{ ...st.searchBar, marginBottom: '30px', borderRadius: '16px', background: 'white' }}>
                   <div style={st.searchTypeToggle}>
@@ -570,7 +578,6 @@ const App = () => {
             </div>
           )}
 
-          {/* Остальные представления без изменений */}
           {view === 'add' && (
             <div style={st.formContainer}>
               <div style={st.formCard}>
@@ -584,7 +591,10 @@ const App = () => {
                   </div>
                 )}
                 <form onSubmit={saveLesson} style={st.stack}>
-                  <input style={st.formInput} placeholder="Название дисциплины" required value={lessonForm.subject} onChange={e => setLessonForm({...lessonForm, subject: e.target.value})} />
+                  <select style={st.formSelect} required value={lessonForm.subject_id} onChange={e => setLessonForm({...lessonForm, subject_id: e.target.value})}>
+                    <option value="">Выберите предмет...</option>
+                    {meta.subjects?.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                  </select>
 
                   <div style={{display:'flex', gap:'15px'}}>
                     <select style={st.formSelect} value={lessonForm.lesson_type} onChange={e => setLessonForm({...lessonForm, lesson_type: e.target.value})}>
@@ -699,6 +709,7 @@ const App = () => {
           {view === 'departments' && <DepartmentsList departments={meta.departments} refresh={refreshData} apiUrl={API_URL} onDelete={deleteMeta} onUpdate={updateMeta} />}
           {view === 'groups' && <GroupsList groups={meta.groups} refresh={refreshData} apiUrl={API_URL} onDelete={deleteMeta} onUpdate={updateMeta} />}
           {view === 'rooms' && <RoomsList rooms={meta.rooms} refresh={refreshData} apiUrl={API_URL} onDelete={deleteMeta} onUpdate={updateMeta} />}
+          {view === 'subjects' && <SubjectList subjects={meta.subjects} refresh={refreshData} apiUrl={API_URL} onDelete={deleteMeta} onUpdate={updateMeta} />}
 
           {view === 'admin' && (
             <AdminPanel
@@ -714,7 +725,7 @@ const App = () => {
   );
 };
 
-// Компоненты списков с редактированием
+// Компоненты списков
 const ListWrapper = ({ title, children, onRefresh }) => (
   <div style={{ maxWidth: '1200px' }}>
     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px' }}>
@@ -1033,13 +1044,80 @@ const RoomsList = ({ rooms, refresh, apiUrl, onDelete, onUpdate }) => {
   );
 };
 
+const SubjectList = ({ subjects, refresh, apiUrl, onDelete, onUpdate }) => {
+  const [name, setName] = useState('');
+  const [editId, setEditId] = useState(null);
+  const [editName, setEditName] = useState('');
+
+  const add = async (e) => {
+    e.preventDefault();
+    if (!name) return;
+    try {
+      await axios.post(`${apiUrl}/subjects`, { name });
+      setName('');
+      refresh();
+    } catch { alert('Ошибка добавления'); }
+  };
+
+  const startEdit = (subj) => {
+    setEditId(subj.id);
+    setEditName(subj.name);
+  };
+
+  const cancelEdit = () => setEditId(null);
+
+  const saveEdit = async (id) => {
+    if (!editName) return alert('Введите название');
+    try {
+      await onUpdate('subjects', id, { name: editName });
+      setEditId(null);
+      refresh();
+    } catch { alert('Ошибка сохранения'); }
+  };
+
+  return (
+    <ListWrapper title="Предметы" onRefresh={refresh}>
+      <div style={{ background:'#fff', borderRadius:'20px', padding:'25px', marginBottom:'30px' }}>
+        <h3>Добавить предмет</h3>
+        <form onSubmit={add} style={{ display:'flex', gap:'15px', alignItems:'flex-end' }}>
+          <input placeholder="Название предмета" value={name} onChange={e=>setName(e.target.value)} style={st.inp} required />
+          <button type="submit" style={st.addBtn}><Plus size={18}/> Добавить</button>
+        </form>
+      </div>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(250px, 1fr))', gap:'20px' }}>
+        {subjects.map(s=>(
+          <div key={s.id} style={{...st.card, background: '#f0fdf4', borderColor: '#bbf7d0'}}>
+            {editId === s.id ? (
+              <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
+                <input value={editName} onChange={e=>setEditName(e.target.value)} style={st.inp} placeholder="Название" />
+                <div style={{ display:'flex', gap:'10px' }}>
+                  <button onClick={() => saveEdit(s.id)} style={st.addBtn}>Сохранить</button>
+                  <button onClick={cancelEdit} style={{...st.addBtn, background:'#94a3b8'}}>Отмена</button>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                <span style={{ fontWeight:700 }}>{s.name}</span>
+                <div style={{ display:'flex', gap:'8px' }}>
+                  <button onClick={() => startEdit(s)} style={{...st.iconBtn, background:'none'}}><Edit size={14}/></button>
+                  <button onClick={() => onDelete('subjects', s.id)} style={{...st.iconBtn, background:'none'}}><Trash2 size={14} color="#ef4444"/></button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </ListWrapper>
+  );
+};
+
 // Админ-панель (только формы добавления)
 const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
   return (
     <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'25px'}}>
-      {['departments', 'teachers', 'groups', 'rooms'].map(type => (
+      {['departments', 'teachers', 'groups', 'rooms', 'subjects'].map(type => (
         <div key={type} style={st.adminCard}>
-          <h4>{type === 'departments' ? 'Кафедра' : type === 'teachers' ? 'Преподаватель' : type === 'groups' ? 'Группа' : 'Аудитория'}</h4>
+          <h4>{type === 'departments' ? 'Кафедра' : type === 'teachers' ? 'Преподаватель' : type === 'groups' ? 'Группа' : type === 'rooms' ? 'Аудитория' : 'Предмет'}</h4>
           {type === 'teachers' && (
             <>
               <input placeholder="ФИО" value={newMeta.teachers} onChange={e=>setNewMeta({...newMeta, teachers:e.target.value})} style={st.adminInp} />
@@ -1061,17 +1139,10 @@ const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
               <div style={{color:'#64748b', fontSize:12, marginTop:10}}>Полный список — в отдельной вкладке</div>
             </>
           )}
-          {type === 'groups' && (
+          {(type !== 'teachers' && type !== 'rooms') && (
             <>
-              <input placeholder="Название группы" value={newMeta.groups} onChange={e=>setNewMeta({...newMeta, groups:e.target.value})} style={st.adminInp} />
-              <button onClick={()=>addMeta('groups')} style={st.adminAddBtn}><Plus size={18}/></button>
-              <div style={{color:'#64748b', fontSize:12, marginTop:10}}>Полный список — в отдельной вкладке</div>
-            </>
-          )}
-          {type === 'departments' && (
-            <>
-              <input placeholder="Название кафедры" value={newMeta.departments} onChange={e=>setNewMeta({...newMeta, departments:e.target.value})} style={st.adminInp} />
-              <button onClick={()=>addMeta('departments')} style={st.adminAddBtn}><Plus size={18}/></button>
+              <input placeholder={type === 'departments' ? 'Название кафедры' : type === 'groups' ? 'Название группы' : 'Название предмета'} value={newMeta[type] || ''} onChange={e=>setNewMeta({...newMeta, [type]: e.target.value})} style={st.adminInp} />
+              <button onClick={()=>addMeta(type)} style={st.adminAddBtn}><Plus size={18}/></button>
               <div style={{color:'#64748b', fontSize:12, marginTop:10}}>Полный список — в отдельной вкладке</div>
             </>
           )}
