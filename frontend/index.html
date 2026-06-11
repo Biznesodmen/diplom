@@ -11,13 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   </head>
 <body>
-  <button id="burgerBtn" style="display:none; position:fixed; top:15px; left:15px; z-index:1300; background:#6366f1; color:white; border:none; border-radius:8px; padding:10px 14px; font-size:20px; cursor:pointer;"
-    onclick="var s=document.getElementById('sidebar'); var o=document.getElementById('overlay'); s.style.display='flex'; s.style.position='fixed'; s.style.top='0'; s.style.left='0'; s.style.width='280px'; s.style.height='100vh'; s.style.zIndex='1200'; s.style.background='#fff'; s.style.flexDirection='column'; s.style.overflowY='auto'; o.style.display='block';">☰</button>
-
-  <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1100;"
-    onclick="document.getElementById('sidebar').style.display='none'; this.style.display='none';"></div>
-
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
