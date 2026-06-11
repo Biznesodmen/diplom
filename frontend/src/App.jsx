@@ -388,7 +388,39 @@ const App = () => {
     }
   };
 
-const globalStyles = `html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }`;
+const globalStyles = `
+  html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+
+  @media (max-width: 768px) {
+    /* Скрываем боковую панель */
+    #sidebar {
+      display: none !important;
+    }
+
+    /* Кнопка-бургер */
+    #burgerBtn {
+      display: flex !important;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1100;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Растягиваем основной контент на всю ширину */
+    #content {
+      margin-left: 0 !important;
+      padding: 15px !important;
+      width: 100% !important;
+    }
+  }
+`;
   if (!isLoggedIn) {
     return (
       <>
