@@ -64,63 +64,48 @@
     padding: 14px 20px !important;
     font-size: 14px !important;
   }
+}
 
-  /* ====== ЦВЕТА ТЕКСТА – ИСПРАВЛЕНИЕ БЕЛЫХ БУКВ ====== */
+/* ====== ЦВЕТА ТЕКСТА ТОЛЬКО ДЛЯ МОБИЛЬНОГО РЕЖИМА ====== */
+body.mobile-view,
+body.mobile-view * {
+  color: #1e293b !important;
+  -webkit-text-fill-color: #1e293b !important;
+}
 
-  /* 1. Все поля ввода, селекты, textarea */
-  input, select, textarea {
-    color: #1e293b !important;
-    background-color: #f8fafc !important;
-    -webkit-text-fill-color: #1e293b !important; /* Safari */
-  }
+/* Исключения: элементы на тёмном фоне (страница входа) */
+body.mobile-view div[style*="background: rgb(15, 23, 42)"],
+body.mobile-view div[style*="background:#0f172a"],
+body.mobile-view .authTitle,
+body.mobile-view .authSub {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
 
-  /* 2. Placeholder (подсказка внутри поля) */
-  input::placeholder, textarea::placeholder {
-    color: #94a3b8 !important;
-    -webkit-text-fill-color: #94a3b8 !important;
-  }
+/* Кнопки с синим фоном */
+body.mobile-view button[style*="background:#6366f1"],
+body.mobile-view button[style*="background: rgb(99, 102, 241)"],
+body.mobile-view .addBtn {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
 
-  /* 3. Кнопки с синим фоном – оставляем белый текст */
-  button[style*="background:#6366f1"],
-  button[style*="background: rgb(99, 102, 241)"],
-  button[style*="background:#6366f1"],
-  .addBtn {
-    color: #ffffff !important;
-  }
+/* Кнопки с тёмным фоном */
+body.mobile-view button[style*="background:#1e293b"],
+body.mobile-view button[style*="background: rgb(30, 41, 59)"],
+body.mobile-view .submitBtn {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
 
-  /* 4. Кнопки с тёмным фоном (например, «Опубликовать») – белый текст */
-  button[style*="background:#1e293b"],
-  button[style*="background: rgb(30, 41, 59)"],
-  .submitBtn {
-    color: #ffffff !important;
-  }
+/* Кнопка "Войти" */
+body.mobile-view .primaryBtn {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
 
-  /* 5. Кнопка «Войти» */
-  .primaryBtn {
-    color: #ffffff !important;
-  }
-
-  /* 6. Кнопка «Выйти» – красный текст */
-  .logoutBtn {
-    color: #e11d48 !important;
-  }
-
-  /* 7. Все остальные элементы, которые могут быть белыми – принудительно тёмный текст */
-  body, div, p, span, label, h2, h3, h4, h5, h6, a {
-    color: #1e293b !important;
-    -webkit-text-fill-color: #1e293b !important;
-  }
-
-  /* 8. Но сохраняем белый текст на элементах с тёмным фоном (например, на странице входа) */
-  div[style*="background: rgb(15, 23, 42)"], /* authWrapper */
-  div[style*="background:#0f172a"] {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
-
-  /* 9. Заголовок на странице входа и подпись */
-  .authTitle, .authSub {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
+/* Кнопка "Выйти" — красный текст */
+body.mobile-view .logoutBtn {
+  color: #e11d48 !important;
+  -webkit-text-fill-color: #e11d48 !important;
 }

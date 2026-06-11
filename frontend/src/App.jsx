@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import {
   Users, MapPin, Settings, List, Search, Plus, LogOut,
@@ -66,6 +66,18 @@ const App = () => {
   const [editingLesson, setEditingLesson] = useState(null);
   const [conflictDetails, setConflictDetails] = useState('');
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        document.body.classList.add('mobile-view');
+      } else {
+        document.body.classList.remove('mobile-view');
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize(); // проверить сразу при загрузке
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const refreshData = useCallback(async () => {
     try {
       const [resSched, resMeta] = await Promise.all([
