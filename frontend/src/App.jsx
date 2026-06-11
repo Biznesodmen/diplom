@@ -524,10 +524,11 @@ const globalStyles = `
   />
 )}
       <div style={st.app}>
-        <aside
+<aside
   id="sidebar"
   style={st.sidebar}
   className={mobileMenuOpen ? 'open' : ''}
+  onClick={(e) => { if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') setMobileMenuOpen(false); }}
 >
           <div style={st.sideBrand}>
             <GraduationCap size={28} color="#6366f1" />
