@@ -11,7 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   </head>
   <body>
-    <button id="burgerBtn" style="display:none;" onclick="document.getElementById('sidebar').style.display='block'; this.style.display='none';">☰</button>
+    <button id="burgerBtn" style="display:none;" onclick="document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('active')">☰</button>
+<div id="overlay" class="overlay" onclick="document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('active')"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
