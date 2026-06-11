@@ -446,6 +446,24 @@ def serve_react(path):
     if path and os.path.exists(os.path.join(app.static_folder, path)):
         return send_from_directory(app.static_folder, path)
     return send_from_directory(app.static_folder, 'index.html')
+import shutil
+
+@app.route('/admin/upload-db', methods=['POST'])
+def upload_database():
+    # только для админа (проверка по секретному ключу)
+    auth_header = request.headers.get('Authorization', '')
+    if auth_header != 'Bearer admin-secret-upload':
+        return jsonify({'error': 'Unauthorized'}), 401
+    file = request.files.get('db_file')
+    if not file:
+        return jsonify({'error': 'No file'}), 400
+    db_path = os.path.join(basedir, 'schedule.db')
+    # сохраняем копию текущей базы на всякий случай
+    backup_path = db_path + '.backup'
+    if os.path.exists(db_path):
+        shutil.copy2(db_path, backup_path)
+    file.save(db_path)
+    return jsonify({'message': 'База загружена, перезагрузите сервер'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
