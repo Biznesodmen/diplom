@@ -65,39 +65,62 @@
     font-size: 14px !important;
   }
 
-  /* ====== ЦВЕТА ТЕКСТА ТОЛЬКО ДЛЯ ПОЛЕЙ ВВОДА ====== */
+  /* ====== ЦВЕТА ТЕКСТА – ИСПРАВЛЕНИЕ БЕЛЫХ БУКВ ====== */
+
+  /* 1. Все поля ввода, селекты, textarea */
   input, select, textarea {
-    color: #1e293b !important;          /* тёмный текст */
+    color: #1e293b !important;
     background-color: #f8fafc !important;
-    -webkit-text-fill-color: #1e293b !important; /* для Safari */
+    -webkit-text-fill-color: #1e293b !important; /* Safari */
   }
 
-  /* Placeholder */
+  /* 2. Placeholder (подсказка внутри поля) */
   input::placeholder, textarea::placeholder {
     color: #94a3b8 !important;
+    -webkit-text-fill-color: #94a3b8 !important;
   }
 
-  /* Кнопки с синим фоном (например, «Добавить») */
+  /* 3. Кнопки с синим фоном – оставляем белый текст */
   button[style*="background:#6366f1"],
   button[style*="background: rgb(99, 102, 241)"],
+  button[style*="background:#6366f1"],
   .addBtn {
     color: #ffffff !important;
   }
 
-  /* Кнопки с тёмным фоном (например, «Опубликовать») */
+  /* 4. Кнопки с тёмным фоном (например, «Опубликовать») – белый текст */
   button[style*="background:#1e293b"],
   button[style*="background: rgb(30, 41, 59)"],
   .submitBtn {
     color: #ffffff !important;
   }
 
-  /* Кнопка «Войти» на странице входа */
+  /* 5. Кнопка «Войти» */
   .primaryBtn {
     color: #ffffff !important;
   }
 
-  /* Кнопка выхода (красный текст) */
+  /* 6. Кнопка «Выйти» – красный текст */
   .logoutBtn {
     color: #e11d48 !important;
+  }
+
+  /* 7. Все остальные элементы, которые могут быть белыми – принудительно тёмный текст */
+  body, div, p, span, label, h2, h3, h4, h5, h6, a {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+  }
+
+  /* 8. Но сохраняем белый текст на элементах с тёмным фоном (например, на странице входа) */
+  div[style*="background: rgb(15, 23, 42)"], /* authWrapper */
+  div[style*="background:#0f172a"] {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  /* 9. Заголовок на странице входа и подпись */
+  .authTitle, .authSub {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
   }
 }
