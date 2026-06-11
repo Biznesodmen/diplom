@@ -1250,31 +1250,7 @@ const SubjectList = ({ subjects, refresh, apiUrl, onDelete, onUpdate }) => {
 };
 
 // Админ-панель (только формы добавления)
-// Админ-панель (только формы добавления + загрузка базы)
 const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
-  const [uploadingDb, setUploadingDb] = useState(false);
-
-  const handleDbUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setUploadingDb(true);
-    const formData = new FormData();
-    formData.append('db_file', file);
-    try {
-      await axios.post('/admin/upload-db', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': 'Bearer admin-secret-upload'
-        }
-      });
-      alert('База загружена! Перезагрузите сервер на Render (Manual Deploy) чтобы применить.');
-    } catch {
-      alert('Ошибка загрузки');
-    } finally {
-      setUploadingDb(false);
-    }
-  };
-
   return (
     <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'25px'}}>
       {['departments', 'teachers', 'groups', 'rooms', 'subjects'].map(type => (
@@ -1324,12 +1300,6 @@ const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
           )}
         </div>
       ))}
-      {/* Загрузка базы данных с ПК */}
-      <div style={{ gridColumn: '1 / -1', marginTop: 20, padding: 15, border: '1px dashed #e2e8f0', borderRadius: 12 }}>
-        <label style={{ fontSize: 13, color: '#64748b' }}>Загрузить базу данных с ПК (только admin):</label>
-        <input type="file" accept=".db" onChange={handleDbUpload} style={{ marginTop: 8 }} />
-        {uploadingDb && <div style={{ marginTop: 8, color: '#6366f1' }}>Загрузка...</div>}
-      </div>
     </div>
   );
 };
