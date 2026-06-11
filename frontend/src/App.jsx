@@ -65,6 +65,7 @@ const App = () => {
   });
   const [editingLesson, setEditingLesson] = useState(null);
   const [conflictDetails, setConflictDetails] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -392,12 +393,40 @@ const globalStyles = `
   html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
 
   @media (max-width: 768px) {
-    /* Скрываем боковую панель */
+    /* ====== ЦВЕТА ТЕКСТА (весь текст тёмный) ====== */
+    body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, input, select, textarea, button {
+      color: #1e293b !important;
+      -webkit-text-fill-color: #1e293b !important;
+    }
+    /* Исключения – белый текст на тёмном фоне */
+    div[style*="background:#0f172a"],
+    div[style*="background: rgb(15, 23, 42)"] {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    .authTitle, .authSub {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    /* Цветные кнопки */
+    button[style*="background:#6366f1"],
+    button[style*="background: rgb(99, 102, 241)"],
+    button[style*="background:#1e293b"],
+    button[style*="background: rgb(30, 41, 59)"],
+    .addBtn, .submitBtn, .primaryBtn {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    .logoutBtn {
+      color: #e11d48 !important;
+      -webkit-text-fill-color: #e11d48 !important;
+    }
+
+    /* ====== САЙДБАР И БУРГЕР ====== */
     #sidebar {
       display: none !important;
     }
 
-    /* Кнопка-бургер */
     #burgerBtn {
       display: flex !important;
       position: fixed;
@@ -413,11 +442,43 @@ const globalStyles = `
       cursor: pointer;
     }
 
-    /* Растягиваем основной контент на всю ширину */
+    #sidebar.open {
+      display: flex !important;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 100vh;
+      z-index: 1200;
+      background: #fff;
+      flex-direction: column;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    /* Оверлей (затемнение фона) */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1190;
+    }
+
+    #overlay.active {
+      display: block;
+    }
+
+    /* ====== КОНТЕНТ НА ВСЮ ШИРИНУ ====== */
     #content {
       margin-left: 0 !important;
       padding: 15px !important;
       width: 100% !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
     }
   }
 `;
@@ -447,6 +508,21 @@ const globalStyles = `
   return (
     <>
       <style>{globalStyles}</style>
+      {/* Кнопка-бургер и оверлей ТОЛЬКО для мобильных */}
+<button
+  id="burgerBtn"
+  style={{ display: 'none' }}
+  onClick={() => setMobileMenuOpen(true)}
+>
+  ☰
+</button>
+{mobileMenuOpen && (
+  <div
+    id="overlay"
+    className="active"
+    onClick={() => setMobileMenuOpen(false)}
+  />
+)}
       <div style={st.app}>
         <aside id="sidebar" style={st.sidebar}>
           <div style={st.sideBrand}>
