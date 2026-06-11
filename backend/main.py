@@ -465,21 +465,21 @@ def upload_database():
     file.save(db_path)
     return jsonify({'message': 'База загружена, перезагрузите сервер'}), 200
 
-import requests
+#import requests
 
-DB_DOWNLOAD_URL = 'https://limewire.com/d/OC5mP#TFp6iojO0a' 
+#DB_DOWNLOAD_URL = 'https://limewire.com/d/OC5mP#TFp6iojO0a' 
 
-def update_database():
-    try:
-        resp = requests.get(DB_DOWNLOAD_URL)
-        if resp.status_code == 200:
-            with open(os.path.join(basedir, 'schedule.db'), 'wb') as f:
-                f.write(resp.content)
-            print('База обновлена из облака')
-    except Exception as e:
-        print(f'Ошибка обновления базы: {e}')
+#def update_database():
+ #   try:
+   #python main.py     resp = requests.get(DB_DOWNLOAD_URL)
+  #      if resp.status_code == 200:
+  #          with open(os.path.join(basedir, 'schedule.db'), 'wb') as f:
+  #              f.write(resp.content)
+ #           print('База обновлена из облака')
+ #   except Exception as e:
+ #       print(f'Ошибка обновления базы: {e}')
 
-update_database()
+#update_database()
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
