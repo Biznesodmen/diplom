@@ -524,7 +524,11 @@ const globalStyles = `
   />
 )}
       <div style={st.app}>
-        <aside id="sidebar" style={st.sidebar}>
+        <aside
+  id="sidebar"
+  style={st.sidebar}
+  className={mobileMenuOpen ? 'open' : ''}
+>
           <div style={st.sideBrand}>
             <GraduationCap size={28} color="#6366f1" />
             <span style={st.brandText}>RANEPA <b style={{color:'#1e293b'}}>SYSTEM</b></span>
