@@ -388,8 +388,12 @@ const App = () => {
     }
   };
 
-  const globalStyles = `html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }`;
-
+  const globalStyles = `
+  html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+  #sidebar { display: none; }
+  #burgerBtn { display: none; }
+  #content { margin-left: 0 !important; padding: 15px !important; width: 100% !important; }
+`;
   if (!isLoggedIn) {
     return (
       <>
