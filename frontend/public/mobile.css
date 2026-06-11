@@ -1,36 +1,69 @@
-/* Планшеты и небольшие экраны (до 768px) */
+/* Общие стили для экранов уже 768px (планшеты и телефоны) */
 @media (max-width: 768px) {
+  /* Скрываем боковую панель */
   #sidebar {
-    width: 200px !important;
+    display: none !important;
   }
-  #content {
-    padding: 20px !important;
-  }
-  /* Уменьшаем шрифт в карточках занятий */
-  .lessonCard * {
-    font-size: 12px !important;
-  }
-  /* Поле поиска уже */
-  .ghostInput {
-    width: 120px !important;
-  }
-}
 
-/* Телефоны (до 480px) */
-@media (max-width: 480px) {
-  #sidebar {
-    width: 180px !important;
+  /* Делаем кнопку-бургер видимой */
+  #burgerBtn {
+    display: flex !important;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 20px;
+    cursor: pointer;
   }
+
+  /* Растягиваем основной контент на всю ширину */
   #content {
-    padding: 10px !important;
+    margin-left: 0 !important;
+    padding: 15px !important;
+    width: 100% !important;
   }
-  /* Заголовки поменьше */
-  .pageTitle {
-    font-size: 18px !important;
+
+  /* Карточки занятий занимают всю ширину */
+  .lessonCard {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
   }
-  /* Кнопки недель в календаре */
-  .weekButton {
-    padding: 8px 12px !important;
-    font-size: 12px !important;
+
+  /* Время и пара не справа, а сверху */
+  .cardTime {
+    border-right: none !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  /* Информация о занятии на всю ширину */
+  .cardInfo {
+    padding: 0 !important;
+  }
+
+  /* Контейнер для фильтров — вертикально */
+  .searchBar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  /* Формы и контейнеры не ограничиваем по ширине */
+  .formContainer, .adminCard {
+    max-width: 100% !important;
+    padding: 15px !important;
+  }
+
+  /* Кнопки в формах на мобиле — крупнее */
+  .multiBtn, .submitBtn {
+    padding: 14px 20px !important;
+    font-size: 14px !important;
   }
 }
