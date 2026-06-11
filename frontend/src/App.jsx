@@ -6,7 +6,7 @@ import {
   Calendar, Edit, Trash2, RefreshCw, Building, DoorOpen
 } from 'lucide-react';
 
-const API_URL = 'http://127.0.0.1:5000/api';
+const API_URL = '/api';
 
 const WEEK_DAYS = [
   { id: 1, name: "Понедельник" }, { id: 2, name: "Вторник" }, { id: 3, name: "Среда" },
