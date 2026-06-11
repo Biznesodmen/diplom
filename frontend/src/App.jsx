@@ -405,7 +405,7 @@ const App = () => {
     <>
       <style>{globalStyles}</style>
       <div style={st.app}>
-        <aside style={st.sidebar}>
+        <aside id="sidebar" style={st.sidebar}>
           <div style={st.sideBrand}>
             <GraduationCap size={28} color="#6366f1" />
             <span style={st.brandText}>RANEPA <b style={{color:'#1e293b'}}>SYSTEM</b></span>
@@ -447,7 +447,7 @@ const App = () => {
           </div>
         </aside>
 
-        <main style={st.content}>
+        <main id="content" style={st.content}>
           {view === 'view' && (
             <div style={st.container}>
               <div style={{...st.pageHeader, marginBottom: '25px'}}>

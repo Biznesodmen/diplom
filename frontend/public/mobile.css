@@ -1,0 +1,36 @@
+/* Планшеты и небольшие экраны (до 768px) */
+@media (max-width: 768px) {
+  #sidebar {
+    width: 200px !important;
+  }
+  #content {
+    padding: 20px !important;
+  }
+  /* Уменьшаем шрифт в карточках занятий */
+  .lessonCard * {
+    font-size: 12px !important;
+  }
+  /* Поле поиска уже */
+  .ghostInput {
+    width: 120px !important;
+  }
+}
+
+/* Телефоны (до 480px) */
+@media (max-width: 480px) {
+  #sidebar {
+    width: 180px !important;
+  }
+  #content {
+    padding: 10px !important;
+  }
+  /* Заголовки поменьше */
+  .pageTitle {
+    font-size: 18px !important;
+  }
+  /* Кнопки недель в календаре */
+  .weekButton {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+}
