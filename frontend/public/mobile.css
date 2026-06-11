@@ -1,11 +1,11 @@
-/* Общие стили для экранов уже 768px (планшеты и телефоны) */
+/* ----- ОБЩИЕ ПРАВИЛА ДЛЯ УЗКИХ ЭКРАНОВ (≤ 768px) ----- */
 @media (max-width: 768px) {
   /* Скрываем боковую панель */
   #sidebar {
     display: none !important;
   }
 
-  /* Делаем кнопку-бургер видимой */
+  /* Кнопка-бургер */
   #burgerBtn {
     display: flex !important;
     position: fixed;
@@ -21,21 +21,20 @@
     cursor: pointer;
   }
 
-  /* Растягиваем основной контент на всю ширину */
+  /* Основной контент на всю ширину */
   #content {
     margin-left: 0 !important;
     padding: 15px !important;
     width: 100% !important;
   }
 
-  /* Карточки занятий занимают всю ширину */
+  /* Карточки занятий */
   .lessonCard {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 12px !important;
   }
 
-  /* Время и пара не справа, а сверху */
   .cardTime {
     border-right: none !important;
     width: 100% !important;
@@ -43,50 +42,62 @@
     justify-content: space-between !important;
   }
 
-  /* Информация о занятии на всю ширину */
   .cardInfo {
     padding: 0 !important;
   }
 
-  /* Контейнер для фильтров — вертикально */
+  /* Поисковая панель */
   .searchBar {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 10px !important;
   }
 
-  /* Формы и контейнеры не ограничиваем по ширине */
+  /* Формы и админка */
   .formContainer, .adminCard {
     max-width: 100% !important;
     padding: 15px !important;
   }
 
-  /* Кнопки в формах на мобиле — крупнее */
+  /* Кнопки крупнее */
   .multiBtn, .submitBtn {
     padding: 14px 20px !important;
     font-size: 14px !important;
   }
 
-  /* ========= ИСПРАВЛЕНИЕ ЦВЕТОВ ТЕКСТА ========= */
-  /* Цвет текста для всех полей ввода, селектов и текстовых областей */
+  /* ====== ЦВЕТА ТЕКСТА ТОЛЬКО ДЛЯ ПОЛЕЙ ВВОДА ====== */
   input, select, textarea {
-    color: #1e293b !important;        /* тёмно-серый, почти чёрный */
+    color: #1e293b !important;          /* тёмный текст */
     background-color: #f8fafc !important;
+    -webkit-text-fill-color: #1e293b !important; /* для Safari */
   }
 
-  /* Цвет placeholder (подсказки внутри поля) */
+  /* Placeholder */
   input::placeholder, textarea::placeholder {
-    color: #94a3b8 !important;        /* светло-серый, читаемый */
+    color: #94a3b8 !important;
   }
 
-  /* Общий цвет текста для всей страницы (на всякий случай) */
-  body, p, span, div, label, h1, h2, h3, h4, h5, h6, button, a {
-    color: #1e293b !important;
-  }
-
-  /* Но оставляем белый текст на кнопках с синим фоном */
+  /* Кнопки с синим фоном (например, «Добавить») */
   button[style*="background:#6366f1"],
+  button[style*="background: rgb(99, 102, 241)"],
+  .addBtn {
+    color: #ffffff !important;
+  }
+
+  /* Кнопки с тёмным фоном (например, «Опубликовать») */
+  button[style*="background:#1e293b"],
+  button[style*="background: rgb(30, 41, 59)"],
+  .submitBtn {
+    color: #ffffff !important;
+  }
+
+  /* Кнопка «Войти» на странице входа */
   .primaryBtn {
     color: #ffffff !important;
+  }
+
+  /* Кнопка выхода (красный текст) */
+  .logoutBtn {
+    color: #e11d48 !important;
   }
 }
