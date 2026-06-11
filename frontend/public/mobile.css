@@ -66,4 +66,27 @@
     padding: 14px 20px !important;
     font-size: 14px !important;
   }
+
+  /* ========= ИСПРАВЛЕНИЕ ЦВЕТОВ ТЕКСТА ========= */
+  /* Цвет текста для всех полей ввода, селектов и текстовых областей */
+  input, select, textarea {
+    color: #1e293b !important;        /* тёмно-серый, почти чёрный */
+    background-color: #f8fafc !important;
+  }
+
+  /* Цвет placeholder (подсказки внутри поля) */
+  input::placeholder, textarea::placeholder {
+    color: #94a3b8 !important;        /* светло-серый, читаемый */
+  }
+
+  /* Общий цвет текста для всей страницы (на всякий случай) */
+  body, p, span, div, label, h1, h2, h3, h4, h5, h6, button, a {
+    color: #1e293b !important;
+  }
+
+  /* Но оставляем белый текст на кнопках с синим фоном */
+  button[style*="background:#6366f1"],
+  .primaryBtn {
+    color: #ffffff !important;
+  }
 }
