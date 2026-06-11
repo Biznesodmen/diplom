@@ -376,7 +376,41 @@ const App = () => {
     }
   };
 
-  const globalStyles = `html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }`;
+  const globalStyles = `
+  html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+  @media (max-width: 768px) {
+    /* Переопределяем цвет текста для ВСЕХ элементов, кроме тех, что на тёмном фоне */
+    body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, li, td, th, input, select, textarea, button {
+      color: #1e293b !important;
+      -webkit-text-fill-color: #1e293b !important;
+    }
+    /* Оставляем белый текст для элементов внутри тёмной обёртки страницы входа */
+    div[style*="background: rgb(15, 23, 42)"],
+    div[style*="background:#0f172a"] {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    /* Заголовок и подзаголовок на странице входа */
+    .authTitle, .authSub {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    /* Кнопки с фоном остаются с белым текстом */
+    button[style*="background:#6366f1"],
+    button[style*="background: rgb(99, 102, 241)"],
+    button[style*="background:#1e293b"],
+    button[style*="background: rgb(30, 41, 59)"],
+    .addBtn, .submitBtn, .primaryBtn {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    /* Кнопка "Выйти" — красный текст */
+    .logoutBtn {
+      color: #e11d48 !important;
+      -webkit-text-fill-color: #e11d48 !important;
+    }
+  }
+`;
 
   if (!isLoggedIn) {
     return (
