@@ -516,19 +516,19 @@ const globalStyles = `
 >
   ☰
 </button>
-{mobileMenuOpen && (
-  <div
-    id="overlay"
-    className="active"
-    onClick={() => setMobileMenuOpen(false)}
-  />
-)}
+<button
+  id="burgerBtn"
+  style={{ display: 'none' }}
+  onClick={() => setMobileMenuOpen(true)}
+>
+  ☰
+</button>
       <div style={st.app}>
 <aside
   id="sidebar"
   style={st.sidebar}
   className={mobileMenuOpen ? 'open' : ''}
-  onClick={(e) => { if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') setMobileMenuOpen(false); }}
+  onClick={() => setMobileMenuOpen(false)}
 >
           <div style={st.sideBrand}>
             <GraduationCap size={28} color="#6366f1" />
