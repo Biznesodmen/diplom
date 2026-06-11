@@ -1,11 +1,40 @@
-/* ----- ОБЩИЕ ПРАВИЛА ДЛЯ УЗКИХ ЭКРАНОВ (≤ 768px) ----- */
 @media (max-width: 768px) {
-  /* Скрываем боковую панель */
+  /* Цвета текста */
+  body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, input, select, textarea, button {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+  }
+
+  /* Белый текст на тёмном фоне */
+  div[style*="background: rgb(15, 23, 42)"],
+  div[style*="background:#0f172a"] {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+  .authTitle, .authSub {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  /* Цветные кнопки */
+  button[style*="background:#6366f1"],
+  button[style*="background: rgb(99, 102, 241)"],
+  button[style*="background:#1e293b"],
+  button[style*="background: rgb(30, 41, 59)"],
+  .addBtn, .submitBtn, .primaryBtn {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+  .logoutBtn {
+    color: #e11d48 !important;
+    -webkit-text-fill-color: #e11d48 !important;
+  }
+
+  /* Сайдбар и бургер */
   #sidebar {
     display: none !important;
   }
 
-  /* Кнопка-бургер */
   #burgerBtn {
     display: flex !important;
     position: fixed;
@@ -21,91 +50,31 @@
     cursor: pointer;
   }
 
-  /* Основной контент на всю ширину */
-  #content {
-    margin-left: 0 !important;
-    padding: 15px !important;
-    width: 100% !important;
-  }
-
-  /* Карточки занятий */
-  .lessonCard {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
-  }
-
-  .cardTime {
-    border-right: none !important;
-    width: 100% !important;
+  #sidebar.open {
     display: flex !important;
-    justify-content: space-between !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    z-index: 1200;
+    background: #fff;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
   }
 
-  .cardInfo {
-    padding: 0 !important;
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1190;
   }
-
-  /* Поисковая панель */
-  .searchBar {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
+  #overlay.active {
+    display: block;
   }
-
-  /* Формы и админка */
-  .formContainer, .adminCard {
-    max-width: 100% !important;
-    padding: 15px !important;
-  }
-
-  /* Кнопки крупнее */
-  .multiBtn, .submitBtn {
-    padding: 14px 20px !important;
-    font-size: 14px !important;
-  }
-}
-
-/* ====== ЦВЕТА ТЕКСТА ТОЛЬКО ДЛЯ МОБИЛЬНОГО РЕЖИМА ====== */
-body.mobile-view,
-body.mobile-view * {
-  color: #1e293b !important;
-  -webkit-text-fill-color: #1e293b !important;
-}
-
-/* Исключения: элементы на тёмном фоне (страница входа) */
-body.mobile-view div[style*="background: rgb(15, 23, 42)"],
-body.mobile-view div[style*="background:#0f172a"],
-body.mobile-view .authTitle,
-body.mobile-view .authSub {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-/* Кнопки с синим фоном */
-body.mobile-view button[style*="background:#6366f1"],
-body.mobile-view button[style*="background: rgb(99, 102, 241)"],
-body.mobile-view .addBtn {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-/* Кнопки с тёмным фоном */
-body.mobile-view button[style*="background:#1e293b"],
-body.mobile-view button[style*="background: rgb(30, 41, 59)"],
-body.mobile-view .submitBtn {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-/* Кнопка "Войти" */
-body.mobile-view .primaryBtn {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-/* Кнопка "Выйти" — красный текст */
-body.mobile-view .logoutBtn {
-  color: #e11d48 !important;
-  -webkit-text-fill-color: #e11d48 !important;
 }
