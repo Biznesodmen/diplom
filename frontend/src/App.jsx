@@ -61,7 +61,7 @@ const App = () => {
   const [newMeta, setNewMeta] = useState({
     groups: '', teachers: '', teacherDepartment: '', teacherPosition: '', teacherEmail: '',
     rooms: '', roomCapacity: '',
-    departments: ''
+    departments: '', subjects: ''
   });
   const [editingLesson, setEditingLesson] = useState(null);
   const [conflictDetails, setConflictDetails] = useState('');
@@ -173,6 +173,7 @@ const App = () => {
     return [...new Set(dates)];
   };
 
+  // ===== ГЛАВНОЕ ИСПРАВЛЕНИЕ: проверяем editingLesson и шлём PUT =====
   const saveLesson = async (e) => {
     e.preventDefault();
     setConflictDetails('');
@@ -188,21 +189,39 @@ const App = () => {
     }
 
     try {
-      for (const dateStr of dates) {
-        for (const p of lessonForm.pairs) {
-          const dt = new Date(dateStr);
-          const jsDay = dt.getDay();
-          const dayId = jsDay === 0 ? 7 : jsDay;
-          await axios.post(`${API_URL}/schedule`, {
-            subject_id: Number(lessonForm.subject_id),
-            group_id: Number(lessonForm.group_id),
-            teacher_id: Number(lessonForm.teacher_id),
-            room_id: Number(lessonForm.room_id),
-            day: dayId,
-            pair: p,
-            date: dateStr,
-            lesson_type: lessonForm.lesson_type
-          });
+      if (editingLesson) {
+        // === РЕДАКТИРОВАНИЕ ===
+        const dt = new Date(dates[0]); // при редактировании берём только первую дату
+        const jsDay = dt.getDay();
+        const dayId = jsDay === 0 ? 7 : jsDay;
+        await axios.put(`${API_URL}/schedule/${editingLesson}`, {
+          subject_id: Number(lessonForm.subject_id),
+          group_id: Number(lessonForm.group_id),
+          teacher_id: Number(lessonForm.teacher_id),
+          room_id: Number(lessonForm.room_id),
+          day: dayId,
+          pair: lessonForm.pairs[0],      // при редактировании берём первую пару
+          date: dates[0],
+          lesson_type: lessonForm.lesson_type
+        });
+      } else {
+        // === НОВОЕ ЗАНЯТИЕ ===
+        for (const dateStr of dates) {
+          for (const p of lessonForm.pairs) {
+            const dt = new Date(dateStr);
+            const jsDay = dt.getDay();
+            const dayId = jsDay === 0 ? 7 : jsDay;
+            await axios.post(`${API_URL}/schedule`, {
+              subject_id: Number(lessonForm.subject_id),
+              group_id: Number(lessonForm.group_id),
+              teacher_id: Number(lessonForm.teacher_id),
+              room_id: Number(lessonForm.room_id),
+              day: dayId,
+              pair: p,
+              date: dateStr,
+              lesson_type: lessonForm.lesson_type
+            });
+          }
         }
       }
       setView('view');
@@ -243,7 +262,7 @@ const App = () => {
       dateRanges: [{ start: lesson.date, end: lesson.date }],
       lesson_type: lesson.lesson_type
     });
-    setEditingLesson(lesson.id);
+    setEditingLesson(lesson.id);   // ← запоминаем ID, чтобы дальше слать PUT
     setView('add');
   };
 
@@ -367,7 +386,7 @@ const App = () => {
           <div style={st.authCard}>
             <div style={st.authHeader}>
               <div style={st.logoBox}><BookOpen size={32} color="white"/></div>
-              <h1 style={st.authTitle}>ЗФ РАНХиГС</h1>
+              <h1 style={st.authTitle}>РАНХиГС ЗФ</h1>
               <p style={st.authSub}>Автоматизированная система расписания</p>
             </div>
             <form onSubmit={handleLogin} style={st.form}>
@@ -389,7 +408,7 @@ const App = () => {
         <aside style={st.sidebar}>
           <div style={st.sideBrand}>
             <GraduationCap size={28} color="#6366f1" />
-            <span style={st.brandText}>ЗФ <b style={{color:'#1e293b'}}>РАНХиГС</b></span>
+            <span style={st.brandText}>RANEPA <b style={{color:'#1e293b'}}>SYSTEM</b></span>
           </div>
           <nav style={st.sideNav}>
             <button onClick={() => setView('view')} style={view === 'view' ? st.sideBtnActive : st.sideBtn}>
@@ -1110,9 +1129,9 @@ const SubjectList = ({ subjects, refresh, apiUrl, onDelete, onUpdate }) => {
 const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
   return (
     <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'25px'}}>
-      {['departments', 'teachers', 'groups', 'rooms'].map(type => (
+      {['departments', 'teachers', 'groups', 'rooms', 'subjects'].map(type => (
         <div key={type} style={st.adminCard}>
-          <h4>{type === 'departments' ? 'Кафедра' : type === 'teachers' ? 'Преподаватель' : type === 'groups' ? 'Группа' : 'Аудитория'}</h4>
+          <h4>{type === 'departments' ? 'Кафедра' : type === 'teachers' ? 'Преподаватель' : type === 'groups' ? 'Группа' : type === 'rooms' ? 'Аудитория' : 'Дисциплина'}</h4>
           {type === 'teachers' && (
             <>
               <input placeholder="ФИО" value={newMeta.teachers} onChange={e=>setNewMeta({...newMeta, teachers:e.target.value})} style={st.adminInp} />
@@ -1145,6 +1164,13 @@ const AdminPanel = ({ meta, newMeta, setNewMeta, addMeta }) => {
             <>
               <input placeholder="Название кафедры" value={newMeta.departments} onChange={e=>setNewMeta({...newMeta, departments:e.target.value})} style={st.adminInp} />
               <button onClick={()=>addMeta('departments')} style={st.adminAddBtn}><Plus size={18}/></button>
+              <div style={{color:'#64748b', fontSize:12, marginTop:10}}>Полный список — в отдельной вкладке</div>
+            </>
+          )}
+          {type === 'subjects' && (
+            <>
+              <input placeholder="Название дисциплины" value={newMeta.subjects} onChange={e=>setNewMeta({...newMeta, subjects:e.target.value})} style={st.adminInp} />
+              <button onClick={()=>addMeta('subjects')} style={st.adminAddBtn}><Plus size={18}/></button>
               <div style={{color:'#64748b', fontSize:12, marginTop:10}}>Полный список — в отдельной вкладке</div>
             </>
           )}
