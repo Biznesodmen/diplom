@@ -575,7 +575,7 @@ const globalStyles = `
           {view === 'view' && (
             <div style={st.container}>
               <div style={{...st.pageHeader, marginBottom: '25px'}}>
-                <h2 style={{...st.pageTitle, display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px'}}>
+                <h2 style={{...st.pageTitle, display: 'flex', alignItems: 'center', gap: '12px', marginTop: '15px'}}>
                   <Calendar size={28} color="#6366f1" />
                   Учебный график
                 </h2>
