@@ -867,7 +867,7 @@ const globalStyles = `
 const ListWrapper = ({ title, children, onRefresh }) => (
   <div style={{ maxWidth: '1200px' }}>
     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px' }}>
-      <h2 style={{ fontSize:'24px', fontWeight:'800' }}>{title}</h2>
+      <h2 style={{ fontSize:'24px', fontWeight:'800', marginLeft: '12px' }}>{title}</h2>
       <button onClick={onRefresh} style={{ display:'flex', alignItems:'center', gap:'8px', padding:'10px 20px', borderRadius:'12px', border:'none', background:'#e2e8f0', color:'#1e293b', fontWeight:'600', cursor:'pointer' }}>
         <RefreshCw size={18} /> Обновить
       </button>
