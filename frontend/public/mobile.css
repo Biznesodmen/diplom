@@ -4,21 +4,20 @@
   body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, input, select, textarea, button {
     color: #1e293b !important;
     -webkit-text-fill-color: #1e293b !important;
-    /* Сдвиг всех заголовков чуть правее */
-#content h2 {
-  margin-left: 12px;
-}
   }
+
   /* Исключения – белый текст на тёмном фоне */
   div[style*="background:#0f172a"],
   div[style*="background: rgb(15, 23, 42)"] {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
   }
+
   .authTitle, .authSub {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
   }
+
   /* Кнопки с синим и тёмным фоном */
   button[style*="background:#6366f1"],
   button[style*="background: rgb(99, 102, 241)"],
@@ -26,18 +25,22 @@
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
   }
+
   .logoutBtn {
     color: #e11d48 !important;
+    -webkit-text-fill-color: #e11d48 !important;
   }
 
   /* --- САЙДБАР И БУРГЕР --- */
   #sidebar {
-    display: none !important;                     /* скрыт по умолчанию */
+    display: none !important;
   }
+
   #sidebar.open {
-    display: flex !important;                    /* показывается через JS */
+    display: flex !important;
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 280px;
     height: 100vh;
     background: #ffffff;
@@ -46,10 +49,12 @@
     overflow-y: auto;
     box-shadow: 2px 0 10px rgba(0,0,0,0.2);
   }
+
   #burgerBtn {
     display: flex !important;
     position: fixed;
-    top: 15px; left: 15px;
+    top: 15px;
+    left: 15px;
     z-index: 1250;
     background: #6366f1;
     color: white;
@@ -59,20 +64,24 @@
     font-size: 20px;
     cursor: pointer;
   }
-  /* Оверлей – за бургером, перед сайдбаром */
+
+  /* Оверлей */
   #overlay {
     display: none;
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0,0,0,0.4);
     z-index: 1200;
   }
+
   #overlay.active {
     display: block;
   }
 
-  /* --- КОНТЕНТ НА ВСЮ ШИРИНУ, БЕЗ ВЫЛЕЗАНИЙ --- */
+  /* --- КОНТЕНТ НА ВСЮ ШИРИНУ --- */
   #content {
     margin-left: 0 !important;
     padding: 15px !important;
@@ -81,32 +90,38 @@
     overflow-x: hidden !important;
     box-sizing: border-box !important;
   }
-  /* Все внутренние блоки тоже не выходят за пределы */
+
   .container, .formContainer, .adminCard, .lessonCard, .searchBar {
     max-width: 100% !important;
     overflow-x: hidden !important;
     box-sizing: border-box !important;
   }
+
   /* Карточки занятий – компактнее */
   .lessonCard {
     flex-direction: column !important;
     align-items: flex-start !important;
   }
+
   .cardTime {
     border-right: none !important;
     width: 100% !important;
     display: flex !important;
     justify-content: space-between !important;
   }
+
   .cardInfo {
     padding: 0 !important;
   }
+
   /* Кнопки не разрывают строку */
   .multiBtn, .submitBtn, .addBtn {
     white-space: normal !important;
     word-break: break-word !important;
   }
-}
-#content h2 {
-  margin-left: 12px;
+
+  /* ===== СДВИГ ЗАГОЛОВКОВ ТОЛЬКО НА МОБИЛЬНЫХ ===== */
+  #content h2 {
+    margin-left: 12px !important;
+  }
 }
