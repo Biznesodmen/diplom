@@ -4,6 +4,10 @@
   body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, input, select, textarea, button {
     color: #1e293b !important;
     -webkit-text-fill-color: #1e293b !important;
+    /* Сдвиг всех заголовков чуть правее */
+#content h2 {
+  margin-left: 12px;
+}
   }
   /* Исключения – белый текст на тёмном фоне */
   div[style*="background:#0f172a"],
