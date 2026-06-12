@@ -554,7 +554,7 @@ const globalStyles = `
   <div style={st.authCard}>
     <div style={st.authHeader}>
       <div style={st.logoBox}><BookOpen size={32} color="white"/></div>
-      <h1 style={st.authTitle}>РАНХиГС ЗФ</h1>
+      <h1 style={st.authTitle}>ЗФ РАНХиГС</h1>
       <p style={st.authSub}>Автоматизированная система расписания</p>
     </div>
     <form onSubmit={handleLogin} style={st.form}>
@@ -563,14 +563,6 @@ const globalStyles = `
       {authError && <div style={{color:'#e11d48', fontSize:'14px'}}>{authError}</div>}
       <button style={st.primaryBtn}>Войти</button>
     </form>
-
-    {/* Демо-данные */}
-    <div style={{ marginTop: '20px', fontSize: '12px', color: '#64748b', textAlign: 'center', lineHeight: '1.6' }}>
-      <div style={{ fontWeight: '600', marginBottom: '6px', color: '#475569' }}>Доступ для демонстрации:</div>
-      <div><b>admin</b> / 1234 — Администратор</div>
-      <div><b>student</b> / 1234 — Студент</div>
-    </div>
-    {/* Конец authCard */}
   </div>
 </div>
       </>
