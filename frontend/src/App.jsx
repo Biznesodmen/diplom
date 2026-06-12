@@ -564,6 +564,60 @@ select {
   width: 100% !important;
   box-sizing: border-box !important;
 }
+  /* --- Стили, которые работают на ВСЕХ экранах (мобильный по умолчанию) --- */
+
+.card {
+  display: flex;
+  background-color: #f0fdf4; /* Твой зеленый цвет */
+  padding: 15px;
+  border-radius: 12px;
+  
+  /* МОБИЛЬНЫЙ ВИД: заставляем элементы становиться друг под другом */
+  flex-direction: column; 
+  align-items: flex-start; /* Выравниваем текст и кнопки по левому краю */
+  gap: 12px; /* Расстояние между текстом и кнопками */
+}
+
+/* Блок с названием пары/кафедры */
+.card-text {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
+  color: #111;
+  width: 100%; /* Занимает всю ширину */
+}
+
+/* Блок с кнопками управления (edit, delete) */
+.card-actions {
+  display: flex;
+  gap: 10px; /* Расстояние между самими кнопками */
+  width: 100%; /* Кнопки занимают всю ширину */
+  justify-content: flex-end; /* Кнопки прижаты к правому краю */
+}
+
+
+/* --- АДАПТИВНОСТЬ: Меняем вид для больших экранов (Планшеты, ПК) --- */
+@media (min-width: 601px) {
+  .card {
+    /* ПК-ВИД: переключаем обратно в горизонтальный ряд */
+    flex-direction: row; 
+    align-items: center; /* Центрируем по вертикали */
+    justify-content: space-between; /* Текст слева, кнопки справа */
+    gap: 20px; /* Больший отступ между текстом и кнопками */
+  }
+
+  .card-text {
+    width: auto; /* Снимаем жесткую ширину */
+    flex-grow: 1; /* Текст забирает всё свободное место */
+  }
+
+  .card-actions {
+    width: auto; /* Кнопки занимают только свое место */
+    justify-content: flex-end; /* Всегда прижаты вправо */
+    flex-shrink: 0; /* Не даем кнопкам сжиматься */
+  }
+}
 }
   }
 `;
