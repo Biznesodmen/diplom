@@ -575,7 +575,7 @@ const globalStyles = `
           {view === 'view' && (
             <div style={st.container}>
               <div style={{...st.pageHeader, marginBottom: '25px'}}>
-                <h2 style={{...st.pageTitle, display: 'flex', alignItems: 'center', gap: '12px'}}>
+                <h2 style={{...st.pageTitle, display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px'}}>
                   <Calendar size={28} color="#6366f1" />
                   Учебный график
                 </h2>
@@ -867,7 +867,7 @@ const globalStyles = `
 const ListWrapper = ({ title, children, onRefresh }) => (
   <div style={{ maxWidth: '1200px' }}>
     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px' }}>
-      <h2 style={{ fontSize:'24px', fontWeight:'800', marginLeft: '12px' }}>{title}</h2>
+      <h2 style={{ fontSize:'24px', fontWeight:'800', marginLeft: '20px' }}>{title}</h2>
       <button onClick={onRefresh} style={{ display:'flex', alignItems:'center', gap:'8px', padding:'10px 20px', borderRadius:'12px', border:'none', background:'#e2e8f0', color:'#1e293b', fontWeight:'600', cursor:'pointer' }}>
         <RefreshCw size={18} /> Обновить
       </button>
@@ -918,7 +918,7 @@ const TeacherList = ({ teachers, departments, refresh, apiUrl, onDelete, onUpdat
   };
 
   return (
-    <ListWrapper title="Преподаватели" onRefresh={refresh}>
+    <ListWrapper title=" Преподаватели" onRefresh={refresh}>
       <div style={{ background:'#fff', borderRadius:'20px', padding:'25px', marginBottom:'30px' }}>
         <h3>Добавить преподавателя</h3>
         <form onSubmit={handleAdd} style={{ display:'flex', gap:'15px', flexWrap:'wrap', alignItems:'flex-end' }}>
