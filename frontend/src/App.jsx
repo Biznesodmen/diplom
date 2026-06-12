@@ -524,7 +524,22 @@ const globalStyles = `
       flex-shrink: 0 !important;
       width: auto !important;
     }
-  }
+      /* Уменьшаем текст и исправляем верстку внутри карточек */
+    [class*="Card"] span, 
+    [class*="Card"] p,
+    [class*="card"] span,
+    [class*="card"] p,
+    .cardInfo span,
+    .cardInfo p {
+        font-size: 13px !important;        /* Уменьшаем шрифт */
+        line-height: 1.2 !important;       /* Уплотняем межстрочный интервал */
+        word-break: break-word !important; /* Исправляет вертикальный текст: разрыв только по словам */
+        white-space: normal !important;    /* Разрешает нормальный перенос */
+        overflow-wrap: break-word !important; 
+        min-width: 0 !important;           /* Критически важно: позволяет элементу сжаться, не ломая верстку */
+        max-width: 100% !important;        /* Не дает вылезать за ширину родителя */
+    }
+    }
 `;
   if (!isLoggedIn) {
     return (
