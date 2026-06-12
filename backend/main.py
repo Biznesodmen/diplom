@@ -7,7 +7,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__, static_folder=os.path.join(basedir, 'frontend', 'dist'), static_url_path='/')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'schedule.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://diplom_db_233e_user:zd6lRWRKfufdAjkeEw2wOdd78Ur2svr5@dpg-d8ll4958nd3s739thplg-a/diplom_db_233e'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
