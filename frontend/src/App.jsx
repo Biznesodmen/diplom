@@ -564,58 +564,51 @@ select {
   width: 100% !important;
   box-sizing: border-box !important;
 }
-  /* --- Стили, которые работают на ВСЕХ экранах (мобильный по умолчанию) --- */
+  @media (max-width: 768px) {
+  /* ... все остальные мобильные правила, которые у вас уже есть ... */
 
-.card {
-  display: flex;
-  background-color: #f0fdf4; /* Твой зеленый цвет */
-  padding: 15px;
-  border-radius: 12px;
-  
-  /* МОБИЛЬНЫЙ ВИД: заставляем элементы становиться друг под другом */
-  flex-direction: column; 
-  align-items: flex-start; /* Выравниваем текст и кнопки по левому краю */
-  gap: 12px; /* Расстояние между текстом и кнопками */
-}
-
-/* Блок с названием пары/кафедры */
-.card-text {
-  font-size: 16px;
-  font-weight: 500;
-  margin: 0;
-  line-height: 1.4;
-  color: #111;
-  width: 100%; /* Занимает всю ширину */
-}
-
-/* Блок с кнопками управления (edit, delete) */
-.card-actions {
-  display: flex;
-  gap: 10px; /* Расстояние между самими кнопками */
-  width: 100%; /* Кнопки занимают всю ширину */
-  justify-content: flex-end; /* Кнопки прижаты к правому краю */
-}
-
-
-/* --- АДАПТИВНОСТЬ: Меняем вид для больших экранов (Планшеты, ПК) --- */
-@media (min-width: 601px) {
-  .card {
-    /* ПК-ВИД: переключаем обратно в горизонтальный ряд */
-    flex-direction: row; 
-    align-items: center; /* Центрируем по вертикали */
-    justify-content: space-between; /* Текст слева, кнопки справа */
-    gap: 20px; /* Больший отступ между текстом и кнопками */
+  /* =============================================
+     АДАПТАЦИЯ КАРТОЧЕК: НА УЗКИХ ЭКРАНАХ ВСЁ В КОЛОНКУ
+     ============================================= */
+  .lesson-card {
+    display: flex !important;
+    flex-direction: column !important;   /* главное: перестраиваем в столбик */
+    align-items: flex-start !important;
+    gap: 10px !important;
+    overflow: hidden !important;
   }
 
-  .card-text {
-    width: auto; /* Снимаем жесткую ширину */
-    flex-grow: 1; /* Текст забирает всё свободное место */
+  /* Верхняя строка: время → занимает всю ширину, пара и время в одной строке */
+  .lesson-card__time {
+    width: 100% !important;
+    border-right: none !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
   }
 
-  .card-actions {
-    width: auto; /* Кнопки занимают только свое место */
-    justify-content: flex-end; /* Всегда прижаты вправо */
-    flex-shrink: 0; /* Не даем кнопкам сжиматься */
+  /* Средняя часть: название предмета, группа, преподаватель */
+  .lesson-card__info {
+    width: 100% !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    word-break: break-word !important;  /* длинные названия переносятся */
+  }
+
+  /* Нижний ряд: кнопки «Редактировать» и «Удалить» */
+  .lesson-card__actions {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: flex-end !important; /* кнопки прижаты к правому краю */
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  /* Сами кнопки немного увеличим, чтобы удобнее нажимать */
+  .lesson-card__actions button {
+    padding: 8px 12px;
+    font-size: 14px;
   }
 }
 }
