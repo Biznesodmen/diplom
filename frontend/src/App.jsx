@@ -480,8 +480,8 @@ const globalStyles = `
       max-width: 100vw !important;
       overflow-x: hidden !important;
     }
-  #content h2 {
-  margin-left: 12px !important;
+      #content h2 {
+    margin-left: 56px !important;
       }
     } 
 `;
