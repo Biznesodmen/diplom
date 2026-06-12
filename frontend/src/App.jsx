@@ -390,39 +390,159 @@ const App = () => {
   };
 
 const globalStyles = `
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Обнуление box-sizing для всех элементов */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
   @media (max-width: 768px) {
-    /* 1. Убиваем все ограничения у корневых блоков */
-    html, body, #root, #root > div {
-      margin: 0 !important;
-      padding: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      display: block !important;
+    /* ---------- ЦВЕТА ТЕКСТА ---------- */
+    body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, input, select, textarea, button {
+      color: #1e293b !important;
+      -webkit-text-fill-color: #1e293b !important;
     }
 
-    /* 2. Растягиваем саму белую карточку с формой на весь экран */
-    /* Выбираем форму и её контейнеры */
-    form, 
-    form:parentElement,
-    div:has(> input[type="password"]) {
-      width: 100vw !important;
-      max-width: 100vw !important;
-      height: 100vh !important;
-      min-height: 100vh !important;
-      margin: 0 !important;
-      padding: 40px 20px !important; /* Отступы от краев телефона */
-      border-radius: 0 !important; /* Убираем скругление углов */
-      box-shadow: none !important; /* Убираем тень */
-      box-sizing: border-box !important;
+    /* Исключения – белый текст на тёмном фоне */
+    div[style*="background:#0f172a"],
+    div[style*="background: rgb(15, 23, 42)"] {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    .authTitle, .authSub {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+
+    /* Цветные кнопки */
+    button[style*="background:#6366f1"],
+    button[style*="background: rgb(99, 102, 241)"],
+    button[style*="background:#1e293b"],
+    button[style*="background: rgb(30, 41, 59)"],
+    .addBtn, .submitBtn, .primaryBtn {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    .logoutBtn {
+      color: #e11d48 !important;
+      -webkit-text-fill-color: #e11d48 !important;
+    }
+
+    /* ---------- САЙДБАР И БУРГЕР ---------- */
+    #sidebar {
+      display: none !important;
+    }
+    #burgerBtn {
       display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1100;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    #sidebar.open {
+      display: flex !important;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 100vh;
+      z-index: 1200;
+      background: #fff;
+      flex-direction: column;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1190;
+    }
+    #overlay.active {
+      display: block;
     }
 
-    /* 3. Растягиваем инпуты и кнопку "Войти" */
-    input, button {
+    /* ---------- ОСНОВНОЙ КОНТЕНТ ---------- */
+    #content {
+      margin-left: 0 !important;
+      padding: 15px !important;
       width: 100% !important;
-      max-width: 100% !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+    }
+
+    /* ---------- СДВИГ ЗАГОЛОВКОВ, ЧТОБЫ НЕ ПЕРЕКРЫВАЛИСЬ БУРГЕРОМ ---------- */
+    #content h2 {
+      margin-left: 56px !important;
+    }
+
+    /* ---------- АДАПТАЦИЯ КАРТОЧЕК ЗАНЯТИЙ ---------- */
+    .lesson-card {
+      display: flex !important;
+      flex-direction: column !important;   /* на мобилках всё в столбик */
+      align-items: flex-start !important;
+      gap: 10px !important;
+      overflow: hidden !important;
+    }
+
+    /* Верхняя строка: время и номер пары */
+    .lesson-card__time {
+      width: 100% !important;
+      border-right: none !important;
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+    }
+
+    /* Средняя часть: название предмета, группа, преподаватель */
+    .lesson-card__info {
+      width: 100% !important;
+      padding: 0 !important;
+      min-width: 0 !important;
+      word-break: break-word !important;
+    }
+
+    /* Нижний ряд: кнопки Редактировать / Удалить */
+    .lesson-card__actions {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .lesson-card__actions button {
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+
+    /* ---------- ФИКС ТЁМНОГО ФОНА В ПОЛЯХ ВВОДА ---------- */
+    input, select, textarea {
+      background-color: #ffffff !important;
+      color: #1e293b !important;
+      -webkit-text-fill-color: #1e293b !important;
+      border: 1px solid #e2e8f0 !important;
+    }
+    select {
+      width: 100% !important;
       box-sizing: border-box !important;
     }
   }
