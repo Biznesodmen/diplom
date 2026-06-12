@@ -390,156 +390,84 @@ const App = () => {
   };
 
 const globalStyles = `
-  html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+  /* Базовый сброс */
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
   *, *::before, *::after {
     box-sizing: border-box;
   }
 
+  /* МОБИЛЬНЫЕ СТИЛИ */
   @media (max-width: 768px) {
-    html, body, #root, #content {
+    
+    /* 1. Жесткая защита от горизонтального скролла */
+    body, #root, #content {
       width: 100vw !important;
       max-width: 100vw !important;
       overflow-x: hidden !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      box-sizing: border-box !important;
     }
 
-    * {
+    /* 2. ЛЕКАРСТВО ОТ «ЛЕСЕНКИ» И ВЫЛЕТАЮЩЕГО ТЕКСТА */
+    /* Важно: min-width: 0 позволяет flex-элементам сжиматься */
+    *, [class*="Card"], [class*="card"], .cardInfo {
       min-width: 0 !important;
-      box-sizing: border-box !important;
       word-break: break-word !important;
-      overflow-wrap: anywhere !important;
+      overflow-wrap: break-word !important;
       white-space: normal !important;
     }
 
-    body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, button {
-      color: #1e293b !important;
-      -webkit-text-fill-color: #1e293b !important;
-    }
-
-    div[style*="background:#0f172a"], 
-    div[style*="background: rgb(15, 23, 42)"], 
-    .authTitle, 
-    .authSub {
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-    }
-
-    button[style*="background:#6366f1"], 
-    button[style*="background: rgb(99, 102, 241)"], 
-    .addBtn, .submitBtn, .primaryBtn {
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-    }
-
-    .logoutBtn {
-      color: #e11d48 !important;
-      -webkit-text-fill-color: #e11d48 !important;
-    }
-
-    input, select, textarea {
-      background-color: #ffffff !important;
-      color: #1e293b !important;
-      -webkit-text-fill-color: #1e293b !important;
-      border: 1px solid #e2e8f0 !important;
-      width: 100% !important;
+    /* Уменьшение текста в карточках */
+    [class*="Card"] p, [class*="Card"] span, 
+    [class*="card"] p, [class*="card"] span {
+      font-size: 13px !important;
+      line-height: 1.3 !important;
       max-width: 100% !important;
     }
 
-    #sidebar { display: none !important; }
-    
-    #sidebar.open {
-      display: flex !important; position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
-      background: #ffffff; z-index: 1300; flex-direction: column; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-    }
-    
-    #burgerBtn {
-      display: flex !important; position: fixed; top: 15px; left: 15px; z-index: 1250;
-      background: #6366f1; color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: 20px; cursor: pointer;
-    }
-    
-    #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1200; }
-    #overlay.active { display: block; }
-
-    #content { padding: 15px !important; padding-top: 60px !important; }
-    #content h2 { margin-left: 0 !important; }
-
-    form, .formContainer, div[style*="display: flex"] {
-      flex-wrap: wrap !important;
-    }
-
-    div > input + button, 
-    form > input + button {
-      margin-top: 10px !important;
-    }
-
-    input, button {
-      max-width: 100% !important;
-    }
-
-    [class*="Card"], [class*="card"], [class*="item"], li {
+    /* 3. КАРТОЧКИ: Принудительный столбик, чтобы кнопки не улетали */
+    [class*="Card"], [class*="card"], li {
       display: flex !important;
       flex-direction: column !important;
-      align-items: stretch !important;
-      gap: 12px !important;
       width: 100% !important;
       max-width: 100% !important;
-      box-sizing: border-box !important;
-      padding: 15px !important;
-      overflow: hidden !important; 
+      padding: 12px !important;
+      gap: 10px !important;
+      margin-bottom: 10px !important;
     }
 
-    div[style*="display: grid"], div[style*="display:grid"] {
-      grid-template-columns: 1fr !important;
-      width: 100% !important;
-    }
-
-    .cardTime {
-      width: 100% !important;
-      display: flex !important;
-      justify-content: space-between !important;
-      border: none !important;
-    }
-
-    .cardInfo {
-      width: 100% !important;
-      padding: 0 !important;
-      flex: 1 1 auto !important;
-    }
-
+    /* 4. КНОПКИ (Редактировать/Удалить) */
+    /* Собираем их в линию в конце карточки */
     [class*="action"], [class*="btn"], .cardMeta {
       display: flex !important;
       flex-direction: row !important;
       justify-content: flex-end !important;
-      gap: 15px !important;
       width: 100% !important;
-      margin-top: auto !important; 
+      gap: 8px !important;
+      margin-top: 5px !important;
       position: static !important;
     }
 
-    button svg, button i, .cardMeta button {
-      position: static !important;
-      transform: none !important;
-      flex-shrink: 0 !important;
-      width: auto !important;
+    /* 5. ИНПУТЫ И ФОРМЫ */
+    form, .formContainer {
+      display: flex !important;
+      flex-direction: column !important;
+      width: 100% !important;
+      gap: 10px !important;
     }
-      /* Уменьшаем текст и исправляем верстку внутри карточек */
-    [class*="Card"] span, 
-    [class*="Card"] p,
-    [class*="card"] span,
-    [class*="card"] p,
-    .cardInfo span,
-    .cardInfo p {
-        font-size: 13px !important;        /* Уменьшаем шрифт */
-        line-height: 1.2 !important;       /* Уплотняем межстрочный интервал */
-        word-break: break-word !important; /* Исправляет вертикальный текст: разрыв только по словам */
-        white-space: normal !important;    /* Разрешает нормальный перенос */
-        overflow-wrap: break-word !important; 
-        min-width: 0 !important;           /* Критически важно: позволяет элементу сжаться, не ломая верстку */
-        max-width: 100% !important;        /* Не дает вылезать за ширину родителя */
+
+    input, select, textarea, button {
+      width: 100% !important;
+      max-width: 100% !important;
     }
-    }
+
+    /* 6. СКРЫТИЕ САЙДБАРА (если он мешает) */
+    #sidebar { display: none !important; }
+  }
 `;
   if (!isLoggedIn) {
     return (
