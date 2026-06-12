@@ -97,10 +97,23 @@
     box-sizing: border-box !important;
   }
 
-  /* Карточки занятий – компактнее */
+  /* НОВОЕ: Фикс для полей ввода, чтобы они были белыми и ровными */
+  input, select, textarea {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* --- КАРТОЧКИ ЗАНЯТИЙ --- */
   .lessonCard {
+    display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
+    gap: 10px !important; /* НОВОЕ: чтобы элементы внутри не слипались */
+    width: 100% !important;
   }
 
   .cardTime {
@@ -108,10 +121,23 @@
     width: 100% !important;
     display: flex !important;
     justify-content: space-between !important;
+    align-items: center !important;
   }
 
   .cardInfo {
+    width: 100% !important;
     padding: 0 !important;
+    word-break: break-word !important; /* НОВОЕ: перенос длинных названий */
+  }
+
+  /* НОВОЕ: Блок с кнопками редактирования и удаления */
+  .cardMeta {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: flex-end !important; /* Прижимаем кнопки вправо */
+    gap: 12px !important;
+    margin-top: 8px !important;
+    flex-shrink: 0 !important;
   }
 
   /* Кнопки не разрывают строку */
@@ -122,6 +148,6 @@
 
   /* ===== СДВИГ ЗАГОЛОВКОВ ТОЛЬКО НА МОБИЛЬНЫХ ===== */
   #content h2 {
-    margin-left: 12px !important;
+    margin-left: 60px !important; /* ИЗМЕНЕНО: было 12px, бургер перекрывал текст */
   }
 }
