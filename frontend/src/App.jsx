@@ -563,12 +563,9 @@ const globalStyles = `
             <button style={st.primaryBtn}>Войти</button>
           </form>
           {/* Вставка с демо-данными */}
-          <div style={{ marginTop: '20px', fontSize: '12px', color: '#64748b', textAlign: 'center', lineHeight: '1.6' }}>
-            <div style={{ fontWeight: '600', marginBottom: '6px', color: '#475569' }}>Доступ для демонстрации:</div>
             <div><b>admin</b> / 1234 — Администратор</div>
             <div><b>student</b> / 1234 — Студент</div>
           </div>
-        </div>
       </>
     );
   }
