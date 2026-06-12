@@ -480,10 +480,23 @@ const globalStyles = `
       max-width: 100vw !important;
       overflow-x: hidden !important;
     }
-      #content h2 {
-    margin-left: 56px !important;
-      }
-    } 
+
+    /* ====== СДВИГ ЗАГОЛОВКОВ, ЧТОБЫ НЕ ПЕРЕКРЫВАЛИСЬ БУРГЕРОМ ====== */
+    #content h2 {
+      margin-left: 56px !important;
+    }
+
+    /* ====== ФИКС ДЛЯ КНОПОК РЕДАКТИРОВАНИЯ / УДАЛЕНИЯ ====== */
+    .lessonCard {
+      flex-wrap: wrap !important;
+    }
+
+    .cardMeta {
+      width: 100% !important;
+      justify-content: flex-start !important;
+      margin-top: 8px;
+    }
+  }
 `;
   if (!isLoggedIn) {
     return (
