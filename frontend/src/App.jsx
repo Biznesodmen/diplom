@@ -1441,7 +1441,7 @@ const st = {
   weekTagEven: { background: '#e0e7ff', color: '#4338ca', fontSize: '10px', fontWeight: '800', padding: '2px 8px', borderRadius: '6px', textTransform: 'uppercase' },
   weekTagOdd: { background: '#fef3c7', color: '#92400e', fontSize: '10px', fontWeight: '800', padding: '2px 8px', borderRadius: '6px', textTransform: 'uppercase' },
   emptyState: { padding:'20px', textAlign:'center', color:'#94a3b8', background:'#fff', borderRadius:'15px' },
-authWrapper: { minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', background: '#0f172a', margin: 0, padding: 0, paddingLeft: '30px', boxSizing: 'border-box', overflow: 'auto' },
+  authWrapper: { minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', background: '#0f172a', margin: 0, padding: '40px 20px', paddingLeft: '60px', boxSizing: 'border-box', overflow: 'auto' },
   authCard: { background:'#fff', padding:'50px', borderRadius:'32px', width:'400px', maxWidth:'90%', textAlign:'center' },
   authHeader: { marginBottom:'30px' },
   logoBox: { background:'#6366f1', width:'64px', height:'64px', borderRadius:'20px', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 20px' },
