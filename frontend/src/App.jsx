@@ -390,83 +390,25 @@ const App = () => {
   };
 
 const globalStyles = `
-  /* Базовый сброс */
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow-x: hidden;
-  }
-  
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  /* МОБИЛЬНЫЕ СТИЛИ */
   @media (max-width: 768px) {
-    
-    /* 1. Жесткая защита от горизонтального скролла */
-    body, #root, #content {
-      width: 100vw !important;
-      max-width: 100vw !important;
-      overflow-x: hidden !important;
-    }
-
-    /* 2. ЛЕКАРСТВО ОТ «ЛЕСЕНКИ» И ВЫЛЕТАЮЩЕГО ТЕКСТА */
-    /* Важно: min-width: 0 позволяет flex-элементам сжиматься */
-    *, [class*="Card"], [class*="card"], .cardInfo {
-      min-width: 0 !important;
-      word-break: break-word !important;
+    /* Лечим «лесенку» (вертикальный текст) */
+    p, span, div {
+      word-wrap: break-word !important;
       overflow-wrap: break-word !important;
-      white-space: normal !important;
+      hyphens: auto !important;
     }
 
-    /* Уменьшение текста в карточках */
-    [class*="Card"] p, [class*="Card"] span, 
-    [class*="card"] p, [class*="card"] span {
-      font-size: 13px !important;
-      line-height: 1.3 !important;
-      max-width: 100% !important;
-    }
-
-    /* 3. КАРТОЧКИ: Принудительный столбик, чтобы кнопки не улетали */
-    [class*="Card"], [class*="card"], li {
-      display: flex !important;
-      flex-direction: column !important;
+    /* Заставляем карточки не вылезать за экран */
+    [class*="Card"], [class*="card"] {
       width: 100% !important;
       max-width: 100% !important;
-      padding: 12px !important;
-      gap: 10px !important;
-      margin-bottom: 10px !important;
+      min-width: 0 !important; /* Это важно, чтобы контейнер не раздувался */
     }
 
-    /* 4. КНОПКИ (Редактировать/Удалить) */
-    /* Собираем их в линию в конце карточки */
-    [class*="action"], [class*="btn"], .cardMeta {
-      display: flex !important;
-      flex-direction: row !important;
-      justify-content: flex-end !important;
-      width: 100% !important;
-      gap: 8px !important;
-      margin-top: 5px !important;
-      position: static !important;
+    /* Фикс кнопок: запрещаем им сжиматься при нехватке места */
+    button, [class*="btn"], [class*="action"] {
+      flex-shrink: 0 !important;
     }
-
-    /* 5. ИНПУТЫ И ФОРМЫ */
-    form, .formContainer {
-      display: flex !important;
-      flex-direction: column !important;
-      width: 100% !important;
-      gap: 10px !important;
-    }
-
-    input, select, textarea, button {
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-
-    /* 6. СКРЫТИЕ САЙДБАРА (если он мешает) */
-    #sidebar { display: none !important; }
   }
 `;
   if (!isLoggedIn) {
