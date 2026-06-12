@@ -107,3 +107,6 @@
     word-break: break-word !important;
   }
 }
+#content h2 {
+  margin-left: 12px;
+}
