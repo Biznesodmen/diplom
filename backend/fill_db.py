@@ -129,5 +129,6 @@ with app.app_context():
             db.session.add(new_lesson)
             added_count += 1
 
+
     db.session.commit()
     print(f'Добавлено новых занятий: {added_count}')
