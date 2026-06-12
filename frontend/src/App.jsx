@@ -392,24 +392,24 @@ const App = () => {
 const globalStyles = `
   html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
   *, *::before, *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
   }
+
   @media (max-width: 768px) {
     /* ====== ЦВЕТА ТЕКСТА (весь текст тёмный) ====== */
     body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, input, select, textarea, button {
       color: #1e293b !important;
       -webkit-text-fill-color: #1e293b !important;
     }
+
     /* Исключения – белый текст на тёмном фоне */
     div[style*="background:#0f172a"],
-    div[style*="background: rgb(15, 23, 42)"] {
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-    }
+    div[style*="background: rgb(15, 23, 42)"],
     .authTitle, .authSub {
       color: #ffffff !important;
       -webkit-text-fill-color: #ffffff !important;
     }
+
     /* Цветные кнопки */
     button[style*="background:#6366f1"],
     button[style*="background: rgb(99, 102, 241)"],
@@ -419,6 +419,7 @@ const globalStyles = `
       color: #ffffff !important;
       -webkit-text-fill-color: #ffffff !important;
     }
+
     .logoutBtn {
       color: #e11d48 !important;
       -webkit-text-fill-color: #e11d48 !important;
@@ -483,135 +484,69 @@ const globalStyles = `
       overflow-x: hidden !important;
     }
 
-    /* ====== СДВИГ ЗАГОЛОВКОВ, ЧТОБЫ НЕ ПЕРЕКРЫВАЛИСЬ БУРГЕРОМ ====== */
+    /* ====== СДВИГ ЗАГОЛОВКОВ ====== */
     #content h2 {
       margin-left: 56px !important;
     }
 
-    /* ====== ФИКС ДЛЯ КНОПОК РЕДАКТИРОВАНИЯ / УДАЛЕНИЯ ====== */
-    .lessonCard {
-      flex-wrap: wrap !important;
-    }
-
-    .cardMeta {
+    /* ====== ФИКС ТЁМНОГО ФОНА В ПОЛЯХ ВВОДА И СЕЛЕКТОВ ====== */
+    input, select, textarea {
+      background-color: #ffffff !important;   
+      color: #1e293b !important;              
+      -webkit-text-fill-color: #1e293b !important; 
+      border: 1px solid #e2e8f0 !important;   
       width: 100% !important;
-      justify-content: flex-start !important;
-      margin-top: 8px;
+      box-sizing: border-box !important;
     }
-      /* ====== ИСПРАВЛЕНИЕ ВЫЕЗДА КНОПОК ====== */
-.lessonCard {
-  flex-wrap: wrap !important;         /* разрешаем перенос строк */
-  overflow: hidden !important;        /* обрезаем всё, что выходит за границы */
-  max-width: 100% !important;         /* не шире родителя */
-}
 
-/* Текстовый блок (название дисциплины, группа, преподаватель) */
-.cardInfo {
-  min-width: 0 !important;            /* разрешаем сжиматься и переносить текст */
-  flex-shrink: 1 !important;          /* может уменьшаться */
-  word-break: break-word !important;  /* переносим длинные слова */
-}
+    /* ====== АДАПТАЦИЯ КАРТОЧЕК (ПЕРЕНОС КНОПОК ВНИЗ) ====== */
+    
+    /* Сама плашка карточки становится вертикальным стеком */
+    .lessonCard, .lesson-card {
+      display: flex !important;
+      flex-direction: column !important;   
+      align-items: flex-start !important;
+      gap: 10px !important;
+      overflow: hidden !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
 
-/* Блок с временем и парой */
-.cardTime {
-  flex-shrink: 0 !important;          /* не сжимается, остаётся фиксированной ширины */
-}
+    /* Блок времени (если есть) растягивается во всю ширину хедера карточки */
+    .cardTime, .lesson-card__time {
+      width: 100% !important;
+      border-right: none !important;
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      flex-shrink: 0 !important;
+    }
 
-/* Контейнер с кнопками (редактировать/удалить) */
-.cardMeta {
-  flex-shrink: 0 !important;          /* кнопки не сжимаются */
-  width: auto !important;             /* ширина по содержимому */
-  margin-left: auto !important;       /* прижимаем вправо, если хотите */
-  margin-top: 8px;                    /* небольшой отступ сверху при переносе */
-}
-  @media (max-width: 768px) and (orientation: portrait) {
-  /* Карточка в портретном режиме — перестраиваем в колонку */
-  .lesson-card {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
-  }
+    /* Блок информации с текстом (название дисциплины, кафедры) */
+    .cardInfo, .lesson-card__info {
+      width: 100% !important;
+      padding: 0 !important;
+      min-width: 0 !important;
+      word-break: break-word !important;  
+      flex-shrink: 1 !important;
+    }
 
-  .lesson-card__time {
-    width: 100% !important;
-    border-right: none !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-  }
+    /* Блок с кнопками (редактировать/удалить) падает вниз и прижимается вправо */
+    .cardMeta, .lesson-card__actions {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: flex-end !important; 
+      gap: 12px !important;
+      margin-top: 8px !important;
+      flex-shrink: 0 !important;
+    }
 
-  .lesson-card__info {
-    width: 100% !important;
-    padding: 0 !important;
-    min-width: 0 !important;
-    word-break: break-word !important;
-  }
-
-  .lesson-card__actions {
-    width: 100% !important;
-    justify-content: flex-end !important;
-    margin-top: 4px !important;
-  }
-    /* ====== ФИКС ТЁМНОГО ФОНА В ПОЛЯХ ВВОДА НА МОБИЛЬНЫХ ====== */
-input, select, textarea {
-  background-color: #ffffff !important;   /* принудительно белый фон */
-  color: #1e293b !important;              /* тёмный текст */
-  -webkit-text-fill-color: #1e293b !important; /* для iOS Safari */
-  border: 1px solid #e2e8f0 !important;   /* ровная граница как в десктопе */
-}
-
-/* Чтобы поле "Кафедра" (select) было той же ширины, что и остальные */
-select {
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-  @media (max-width: 768px) {
-  /* ... все остальные мобильные правила, которые у вас уже есть ... */
-
-  /* =============================================
-     АДАПТАЦИЯ КАРТОЧЕК: НА УЗКИХ ЭКРАНАХ ВСЁ В КОЛОНКУ
-     ============================================= */
-  .lesson-card {
-    display: flex !important;
-    flex-direction: column !important;   /* главное: перестраиваем в столбик */
-    align-items: flex-start !important;
-    gap: 10px !important;
-    overflow: hidden !important;
-  }
-
-  /* Верхняя строка: время → занимает всю ширину, пара и время в одной строке */
-  .lesson-card__time {
-    width: 100% !important;
-    border-right: none !important;
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-  }
-
-  /* Средняя часть: название предмета, группа, преподаватель */
-  .lesson-card__info {
-    width: 100% !important;
-    padding: 0 !important;
-    min-width: 0 !important;
-    word-break: break-word !important;  /* длинные названия переносятся */
-  }
-
-  /* Нижний ряд: кнопки «Редактировать» и «Удалить» */
-  .lesson-card__actions {
-    width: 100% !important;
-    display: flex !important;
-    justify-content: flex-end !important; /* кнопки прижаты к правому краю */
-    gap: 8px;
-    margin-top: 4px;
-  }
-
-  /* Сами кнопки немного увеличим, чтобы удобнее нажимать */
-  .lesson-card__actions button {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-}
-}
+    /* Сами кнопки */
+    .cardMeta button, .lesson-card__actions button {
+      padding: 8px 12px !important;
+      font-size: 14px !important;
+    }
   }
 `;
   if (!isLoggedIn) {
