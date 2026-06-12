@@ -396,157 +396,161 @@ const globalStyles = `
   }
 
   @media (max-width: 768px) {
-    /* ====== ЦВЕТА ТЕКСТА (весь текст тёмный) ====== */
-    body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, input, select, textarea, button {
-      color: #1e293b !important;
-      -webkit-text-fill-color: #1e293b !important;
-    }
+  /* =========================================
+     1. ГЛОБАЛЬНЫЙ ЗАПРЕТ НА ВЫЕЗД ЗА ЭКРАН
+     ========================================= */
+  html, body, #root, #content {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
 
-    /* Исключения – белый текст на тёмном фоне */
-    div[style*="background:#0f172a"],
-    div[style*="background: rgb(15, 23, 42)"],
-    .authTitle, .authSub {
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-    }
+  /* Разрешаем тексту переноситься, а блокам - сжиматься */
+  * {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+  }
 
-    /* Цветные кнопки */
-    button[style*="background:#6366f1"],
-    button[style*="background: rgb(99, 102, 241)"],
-    button[style*="background:#1e293b"],
-    button[style*="background: rgb(30, 41, 59)"],
-    .addBtn, .submitBtn, .primaryBtn {
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-    }
+  /* =========================================
+     2. ЦВЕТА И ТЁМНЫЕ ПОЛЯ (ИСПРАВЛЕНО)
+     ========================================= */
+  body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, button {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+  }
 
-    .logoutBtn {
-      color: #e11d48 !important;
-      -webkit-text-fill-color: #e11d48 !important;
-    }
+  /* Исключения для тёмных фонов */
+  div[style*="background:#0f172a"], 
+  div[style*="background: rgb(15, 23, 42)"], 
+  .authTitle, 
+  .authSub {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
 
-    /* ====== САЙДБАР И БУРГЕР ====== */
-    #sidebar {
-      display: none !important;
-    }
+  button[style*="background:#6366f1"], 
+  button[style*="background: rgb(99, 102, 241)"], 
+  .addBtn, .submitBtn, .primaryBtn {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
 
-    #burgerBtn {
-      display: flex !important;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 1100;
-      background: #6366f1;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 20px;
-      cursor: pointer;
-    }
+  .logoutBtn {
+    color: #e11d48 !important;
+    -webkit-text-fill-color: #e11d48 !important;
+  }
 
-    #sidebar.open {
-      display: flex !important;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 280px;
-      height: 100vh;
-      z-index: 1200;
-      background: #fff;
-      flex-direction: column;
-      overflow-y: auto;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-    }
+  /* Белые поля ввода с тёмным текстом */
+  input, select, textarea {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
 
-    /* Оверлей (затемнение фона) */
-    #overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 1190;
-    }
+  /* =========================================
+     3. САЙДБАР И БУРГЕР
+     ========================================= */
+  #sidebar { display: none !important; }
+  
+  #sidebar.open {
+    display: flex !important; position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
+    background: #ffffff; z-index: 1300; flex-direction: column; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  }
+  
+  #burgerBtn {
+    display: flex !important; position: fixed; top: 15px; left: 15px; z-index: 1250;
+    background: #6366f1; color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: 20px; cursor: pointer;
+  }
+  
+  #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1200; }
+  #overlay.active { display: block; }
 
-    #overlay.active {
-      display: block;
-    }
+  #content { padding: 15px !important; padding-top: 60px !important; }
+  #content h2 { margin-left: 0 !important; }
 
-    /* ====== КОНТЕНТ НА ВСЮ ШИРИНУ ====== */
-    #content {
-      margin-left: 0 !important;
-      padding: 15px !important;
-      width: 100% !important;
-      max-width: 100vw !important;
-      overflow-x: hidden !important;
-    }
+  /* =========================================
+     4. ФОРМЫ (Кнопка "Добавить" не наезжает на поле)
+     ========================================= */
+  /* Принудительно выстраиваем инпут и кнопку в колонку (друг под другом) */
+  form, .formContainer, div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+  }
 
-    /* ====== СДВИГ ЗАГОЛОВКОВ ====== */
-    #content h2 {
-      margin-left: 56px !important;
-    }
+  /* Контейнер для добавления кафедры/группы */
+  div > input + button, 
+  form > input + button {
+    margin-top: 10px !important;
+  }
 
-    /* ====== ФИКС ТЁМНОГО ФОНА В ПОЛЯХ ВВОДА И СЕЛЕКТОВ ====== */
-    input, select, textarea {
-      background-color: #ffffff !important;   
-      color: #1e293b !important;              
-      -webkit-text-fill-color: #1e293b !important; 
-      border: 1px solid #e2e8f0 !important;   
-      width: 100% !important;
-      box-sizing: border-box !important;
-    }
+  input, button {
+    max-width: 100% !important;
+  }
 
-    /* ====== АДАПТАЦИЯ КАРТОЧЕК (ПЕРЕНОС КНОПОК ВНИЗ) ====== */
-    
-    /* Сама плашка карточки становится вертикальным стеком */
-    .lessonCard, .lesson-card {
-      display: flex !important;
-      flex-direction: column !important;   
-      align-items: flex-start !important;
-      gap: 10px !important;
-      overflow: hidden !important;
-      width: 100% !important;
-      max-width: 100% !important;
-    }
+  /* =========================================
+     5. КАРТОЧКИ (Текст не рвет ширину)
+     ========================================= */
+  [class*="Card"], [class*="card"], [class*="item"], li {
+    display: flex !important;
+    flex-direction: column !important; /* Выстраиваем содержимое карточки сверху вниз */
+    align-items: stretch !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 15px !important;
+    overflow: hidden !important; 
+  }
 
-    /* Блок времени (если есть) растягивается во всю ширину хедера карточки */
-    .cardTime, .lesson-card__time {
-      width: 100% !important;
-      border-right: none !important;
-      display: flex !important;
-      flex-direction: row !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      flex-shrink: 0 !important;
-    }
+  /* Если карточки стоят в Grid-сетке, делаем 1 колонку */
+  div[style*="display: grid"], div[style*="display:grid"] {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
 
-    /* Блок информации с текстом (название дисциплины, кафедры) */
-    .cardInfo, .lesson-card__info {
-      width: 100% !important;
-      padding: 0 !important;
-      min-width: 0 !important;
-      word-break: break-word !important;  
-      flex-shrink: 1 !important;
-    }
+  .cardTime {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    border: none !important;
+  }
 
-    /* Блок с кнопками (редактировать/удалить) падает вниз и прижимается вправо */
-    .cardMeta, .lesson-card__actions {
-      width: 100% !important;
-      display: flex !important;
-      justify-content: flex-end !important; 
-      gap: 12px !important;
-      margin-top: 8px !important;
-      flex-shrink: 0 !important;
-    }
+  .cardInfo {
+    width: 100% !important;
+    padding: 0 !important;
+    flex: 1 1 auto !important;
+  }
 
-    /* Сами кнопки */
-    .cardMeta button, .lesson-card__actions button {
-      padding: 8px 12px !important;
-      font-size: 14px !important;
-    }
+  /* =========================================
+     6. ИКОНКИ РЕДАКТИРОВАНИЯ И УДАЛЕНИЯ
+     ========================================= */
+  /* Создаем блок для иконок в самом низу карточки */
+  [class*="action"], [class*="btn"], .cardMeta {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important; /* Толкаем иконки вправо */
+    gap: 15px !important;
+    width: 100% !important;
+    margin-top: auto !important; 
+    position: static !important;
+  }
+
+  /* Отменяем абсолютное позиционирование для вылетевших иконок */
+  button svg, button i, .cardMeta button {
+    position: static !important;
+    transform: none !important;
+    flex-shrink: 0 !important;
+    width: auto !important;
+  }
+}
   }
 `;
   if (!isLoggedIn) {
