@@ -522,6 +522,34 @@ const globalStyles = `
   margin-left: auto !important;       /* прижимаем вправо, если хотите */
   margin-top: 8px;                    /* небольшой отступ сверху при переносе */
 }
+  @media (max-width: 768px) and (orientation: portrait) {
+  /* Карточка в портретном режиме — перестраиваем в колонку */
+  .lesson-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .lesson-card__time {
+    width: 100% !important;
+    border-right: none !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+  }
+
+  .lesson-card__info {
+    width: 100% !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    word-break: break-word !important;
+  }
+
+  .lesson-card__actions {
+    width: 100% !important;
+    justify-content: flex-end !important;
+    margin-top: 4px !important;
+  }
+}
   }
 `;
   if (!isLoggedIn) {
