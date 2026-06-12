@@ -391,7 +391,9 @@ const App = () => {
 
 const globalStyles = `
   html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
-
+  *, *::before, *::after {
+  box-sizing: border-box;
+  }
   @media (max-width: 768px) {
     /* ====== ЦВЕТА ТЕКСТА (весь текст тёмный) ====== */
     body, div, p, span, label, h1, h2, h3, h4, h5, h6, a, input, select, textarea, button {
@@ -549,6 +551,19 @@ const globalStyles = `
     justify-content: flex-end !important;
     margin-top: 4px !important;
   }
+    /* ====== ФИКС ТЁМНОГО ФОНА В ПОЛЯХ ВВОДА НА МОБИЛЬНЫХ ====== */
+input, select, textarea {
+  background-color: #ffffff !important;   /* принудительно белый фон */
+  color: #1e293b !important;              /* тёмный текст */
+  -webkit-text-fill-color: #1e293b !important; /* для iOS Safari */
+  border: 1px solid #e2e8f0 !important;   /* ровная граница как в десктопе */
+}
+
+/* Чтобы поле "Кафедра" (select) было той же ширины, что и остальные */
+select {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
 }
   }
 `;
