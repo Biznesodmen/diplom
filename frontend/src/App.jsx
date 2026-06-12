@@ -496,6 +496,32 @@ const globalStyles = `
       justify-content: flex-start !important;
       margin-top: 8px;
     }
+      /* ====== ИСПРАВЛЕНИЕ ВЫЕЗДА КНОПОК ====== */
+.lessonCard {
+  flex-wrap: wrap !important;         /* разрешаем перенос строк */
+  overflow: hidden !important;        /* обрезаем всё, что выходит за границы */
+  max-width: 100% !important;         /* не шире родителя */
+}
+
+/* Текстовый блок (название дисциплины, группа, преподаватель) */
+.cardInfo {
+  min-width: 0 !important;            /* разрешаем сжиматься и переносить текст */
+  flex-shrink: 1 !important;          /* может уменьшаться */
+  word-break: break-word !important;  /* переносим длинные слова */
+}
+
+/* Блок с временем и парой */
+.cardTime {
+  flex-shrink: 0 !important;          /* не сжимается, остаётся фиксированной ширины */
+}
+
+/* Контейнер с кнопками (редактировать/удалить) */
+.cardMeta {
+  flex-shrink: 0 !important;          /* кнопки не сжимаются */
+  width: auto !important;             /* ширина по содержимому */
+  margin-left: auto !important;       /* прижимаем вправо, если хотите */
+  margin-top: 8px;                    /* небольшой отступ сверху при переносе */
+}
   }
 `;
   if (!isLoggedIn) {
