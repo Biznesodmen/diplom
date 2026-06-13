@@ -128,54 +128,18 @@ with app.app_context():
     print('Справочники готовы.')
 
     # Расписание (пример на одну неделю)
-    from datetime import date
-
     lessons_to_add = [
-    # ==== ПЕРВАЯ НЕДЕЛЯ (4 мая - 8 мая) ====
-    dict(subject='Разработка программных модулей', group='22ИСПп4-о9', teacher='Мотолянец А.Н.', room='315', day=1, pair=1, lesson_date=date(2026,5,4), lesson_type='practice'),
-    dict(subject='Основы алгоритмизации и программирования', group='24ИСПп2-о7', teacher='Матухно Е.В.', room='15', day=1, pair=2, lesson_date=date(2026,5,4), lesson_type='practice'),
-    dict(subject='Физическая культура', group='24ИСПп2-о7', teacher='Глинчиков К.Е.', room='7', day=2, pair=1, lesson_date=date(2026,5,5), lesson_type='practice'),
-    dict(subject='Разработка программных модулей', group='21ИСПп1-о6', teacher='Кубрин Э.В.', room='7', day=2, pair=2, lesson_date=date(2026,5,5), lesson_type='lab'),
-    dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=3, pair=3, lesson_date=date(2026,5,6), lesson_type='lecture'),
-    dict(subject='Информационные технологии', group='23ИСПп6-о11', teacher='Дроздова Е.В.', room='47', day=3, pair=4, lesson_date=date(2026,5,6), lesson_type='practice'),
-    dict(subject='Иностранный язык', group='21ИСПп1-о6', teacher='Колотеев Э.Е.', room='9', day=4, pair=1, lesson_date=date(2026,5,7), lesson_type='lecture'),
-    dict(subject='Стандартизация и сертификация', group='22ИСПп5-о10', teacher='Ткаченко С.В.', room='23', day=5, pair=1, lesson_date=date(2026,5,8), lesson_type='lecture'),
-    dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=5, pair=2, lesson_date=date(2026,5,8), lesson_type='lab'),
-
-    # ==== ВТОРАЯ НЕДЕЛЯ (11 мая - 15 мая) — твои исходные данные ====
-    dict(subject='Разработка программных модулей', group='22ИСПп4-о9', teacher='Мотолянец А.Н.', room='315', day=1, pair=1, lesson_date=date(2026,5,11), lesson_type='practice'),
-    dict(subject='Разработка программных модулей', group='22ИСПп4-о9', teacher='Мотолянец А.Н.', room='315', day=1, pair=2, lesson_date=date(2026,5,11), lesson_type='practice'),
-    dict(subject='Основы алгоритмизации и программирования', group='24ИСПп2-о7', teacher='Матухно Е.В.', room='15', day=1, pair=3, lesson_date=date(2026,5,11), lesson_type='practice'),
-    dict(subject='Разработка программных модулей', group='21ИСПп1-о6', teacher='Кубрин Э.В.', room='7', day=2, pair=4, lesson_date=date(2026,5,12), lesson_type='lab'),
-    dict(subject='Физическая культура', group='24ИСПп2-о7', teacher='Глинчиков К.Е.', room='7', day=2, pair=5, lesson_date=date(2026,5,12), lesson_type='practice'),
-    dict(subject='Информационные технологии', group='23ИСПп6-о11', teacher='Дроздова Е.В.', room='47', day=3, pair=2, lesson_date=date(2026,5,13), lesson_type='practice'),
-    dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=3, pair=3, lesson_date=date(2026,5,13), lesson_type='lecture'),
-    dict(subject='Иностранный язык', group='21ИСПп1-о6', teacher='Колотеев Э.Е.', room='9', day=4, pair=6, lesson_date=date(2026,5,14), lesson_type='lecture'),
-    dict(subject='Стандартизация и сертификация', group='22ИСПп5-о10', teacher='Ткаченко С.В.', room='23', day=5, pair=1, lesson_date=date(2026,5,15), lesson_type='lecture'),
-    dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=5, pair=4, lesson_date=date(2026,5,15), lesson_type='lab'),
-
-    # ==== ТРЕТЬЯ НЕДЕЛЯ (18 мая - 22 мая) ====
-    dict(subject='Разработка программных модулей', group='21ИСПп1-о6', teacher='Кубрин Э.В.', room='7', day=1, pair=1, lesson_date=date(2026,5,18), lesson_type='lab'),
-    dict(subject='Разработка программных модулей', group='22ИСПп4-о9', teacher='Мотолянец А.Н.', room='315', day=1, pair=2, lesson_date=date(2026,5,18), lesson_type='practice'),
-    dict(subject='Основы алгоритмизации и программирования', group='24ИСПп2-о7', teacher='Матухно Е.В.', room='15', day=2, pair=1, lesson_date=date(2026,5,19), lesson_type='practice'),
-    dict(subject='Информационные технологии', group='23ИСПп6-о11', teacher='Дроздова Е.В.', room='47', day=2, pair=2, lesson_date=date(2026,5,19), lesson_type='practice'),
-    dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=3, pair=1, lesson_date=date(2026,5,20), lesson_type='lecture'),
-    dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=3, pair=2, lesson_date=date(2026,5,20), lesson_type='lab'),
-    dict(subject='Физическая культура', group='24ИСПп2-о7', teacher='Глинчиков К.Е.', room='7', day=4, pair=3, lesson_date=date(2026,5,21), lesson_type='practice'),
-    dict(subject='Иностранный язык', group='21ИСПп1-о6', teacher='Колотеев Э.Е.', room='9', day=4, pair=4, lesson_date=date(2026,5,21), lesson_type='lecture'),
-    dict(subject='Стандартизация и сертификация', group='22ИСПп5-о10', teacher='Ткаченко С.В.', room='23', day=5, pair=2, lesson_date=date(2026,5,22), lesson_type='lecture'),
-
-    # ==== ЧЕТВЕРТАЯ НЕДЕЛЯ (25 мая - 29 мая) ====
-    dict(subject='Основы алгоритмизации и программирования', group='24ИСПп2-о7', teacher='Матухно Е.В.', room='15', day=1, pair=1, lesson_date=date(2026,5,25), lesson_type='practice'),
-    dict(subject='Информационные технологии', group='23ИСПп6-о11', teacher='Дроздова Е.В.', room='47', day=1, pair=2, lesson_date=date(2026,5,25), lesson_type='practice'),
-    dict(subject='Разработка программных модулей', group='22ИСПп4-о9', teacher='Мотолянец А.Н.', room='315', day=2, pair=3, lesson_date=date(2026,5,26), lesson_type='practice'),
-    dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=2, pair=4, lesson_date=date(2026,5,26), lesson_type='lab'),
-    dict(subject='Физическая культура', group='24ИСПп2-о7', teacher='Глинчиков К.Е.', room='7', day=3, pair=1, lesson_date=date(2026,5,27), lesson_type='practice'),
-    dict(subject='Разработка программных модулей', group='21ИСПп1-о6', teacher='Кубрин Э.В.', room='7', day=3, pair=2, lesson_date=date(2026,5,27), lesson_type='lab'),
-    dict(subject='Иностранный язык', group='21ИСПп1-о6', teacher='Колотеев Э.Е.', room='9', day=4, pair=1, lesson_date=date(2026,5,28), lesson_type='lecture'),
-    dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=4, pair=2, lesson_date=date(2026,5,28), lesson_type='lecture'),
-    dict(subject='Стандартизация и сертификация', group='22ИСПп5-о10', teacher='Ткаченко С.В.', room='23', day=5, pair=3, lesson_date=date(2026,5,29), lesson_type='lecture'),
-    ]   
+        dict(subject='Разработка программных модулей', group='22ИСПп4-о9', teacher='Мотолянец А.Н.', room='315', day=1, pair=1, lesson_date=date(2026,5,11), lesson_type='practice'),
+        dict(subject='Разработка программных модулей', group='22ИСПп4-о9', teacher='Мотолянец А.Н.', room='315', day=1, pair=2, lesson_date=date(2026,5,11), lesson_type='practice'),
+        dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=3, pair=3, lesson_date=date(2026,5,13), lesson_type='lecture'),
+        dict(subject='Проектирование баз данных', group='23ИСПп3-о8', teacher='Мартин А.Э.', room='422', day=5, pair=4, lesson_date=date(2026,5,15), lesson_type='lab'),
+        dict(subject='Физическая культура', group='24ИСПп2-о7', teacher='Глинчиков К.Е.', room='7', day=2, pair=5, lesson_date=date(2026,5,12), lesson_type='practice'),
+        dict(subject='Иностранный язык', group='21ИСПп1-о6', teacher='Колотеев Э.Е.', room='9', day=4, pair=6, lesson_date=date(2026,5,14), lesson_type='lecture'),
+        dict(subject='Стандартизация и сертификация', group='22ИСПп5-о10', teacher='Ткаченко С.В.', room='23', day=5, pair=1, lesson_date=date(2026,5,15), lesson_type='lecture'),
+        dict(subject='Информационные технологии', group='23ИСПп6-о11', teacher='Дроздова Е.В.', room='47', day=3, pair=2, lesson_date=date(2026,5,13), lesson_type='practice'),
+        dict(subject='Основы алгоритмизации и программирования', group='24ИСПп2-о7', teacher='Матухно Е.В.', room='15', day=1, pair=3, lesson_date=date(2026,5,11), lesson_type='practice'),
+        dict(subject='Разработка программных модулей', group='21ИСПп1-о6', teacher='Кубрин Э.В.', room='7', day=2, pair=4, lesson_date=date(2026,5,12), lesson_type='lab'),
+    ]
 
     added_count = 0
     for les in lessons_to_add:
