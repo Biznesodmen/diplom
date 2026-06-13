@@ -545,6 +545,25 @@ const globalStyles = `
       width: 100% !important;
       box-sizing: border-box !important;
     }
+      /* ---------- ФИКС ДЛЯ КНОПКИ "ВЫБЕРИТЕ ФАЙЛ" ---------- */
+        input, select, textarea {
+          color-scheme: only light;                     /* запрещаем авто-тёмную тему */
+        }
+
+        input[type="file"] {
+          background-color: #ffffff !important;
+          color: #1e293b !important;
+          -webkit-text-fill-color: #1e293b !important;
+        }
+
+        input[type="file"]::file-selector-button {
+          background-color: #e2e8f0 !important;
+          color: #1e293b !important;
+          border: 1px solid #cbd5e1 !important;
+          border-radius: 6px;
+          padding: 6px 12px;
+          cursor: pointer;
+}
   }
 `;
   if (!isLoggedIn) {
